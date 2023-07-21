@@ -1,0 +1,1 @@
+https://www.figma.com/file/D23SpzIYlLiC55gcOGlqJ1/gamecup?type=design&node-id=0-1&mode=design&t=h4KdyysalDd4W0yY-0
