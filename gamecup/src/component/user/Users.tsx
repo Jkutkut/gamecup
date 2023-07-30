@@ -9,7 +9,13 @@ const Users = ({ users, setUsers }: Props) => {
 
   const addUsr = () => {
     const input = document.getElementById('addUsr') as HTMLInputElement;
-    setUsers([...users, input.value]);
+    const user = input.value.trim();
+    if (user === '') return;
+    if (users.includes(user)) {
+      alert('User already exists');
+      return; // TODO handle this better
+    }
+    setUsers([...users, user]);
     input.value = '';
     input.focus();
   };
