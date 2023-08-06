@@ -1,5 +1,7 @@
 import { useState } from 'react'
 import Users from './component/user/Users';
+import InputText from './component/generic/InputText';
+import InputTypes from './component/generic/InputTypes';
 
 function App() {
   const [users, setUsers] = useState<string[]>([]);
@@ -9,14 +11,15 @@ function App() {
     console.debug('createTeams');
     const nbrTeamsHtml = document.getElementById('nbrTeams') as HTMLInputElement;
     let nbrTeams;
+    nbrTeamsHtml.classList.remove('is-valid');
     try {
       nbrTeams = parseInt(nbrTeamsHtml.value);
     } catch (e) {
-      alert('Invalid number of teams'); // TODO handle this better
+      nbrTeamsHtml.classList.add('is-invalid');
       return;
     }
     if (isNaN(nbrTeams) || nbrTeams < 1 || nbrTeams > users.length) {
-      alert('Invalid number of teams'); // TODO handle this better
+      nbrTeamsHtml.classList.add('is-invalid');
       return;
     }
     console.debug('nbrTeams', nbrTeams);
@@ -35,19 +38,28 @@ function App() {
       j++;
       if (j === nbrTeams) j = 0;
     }
+    nbrTeamsHtml.classList.add('is-valid');
     setTeams(newTeams);
   };
 
   return <>
     <Users users={users} setUsers={setUsers} />
     <h3>Game:</h3>
-    <div className="input-group mb-3">
-      <span className="input-group-text" id="nbrTeamsText">Number of teams</span>
-      <input id="nbrTeams" type="number" className="form-control"
-        placeholder="" aria-label="Number of teams" aria-describedby="nbrTeamsText"
-        min={1} max={users.length}
-      />
-    </div>
+    <InputText
+      id='nbrTeams'
+      label='Number of teams'
+      placeholder=''
+      validText='Teams created successfully'
+      invalidText='Invalid number of teams'
+      onEnter={createTeams}
+      onChange={(e) => {
+        e.classList.remove('is-valid');
+        e.classList.remove('is-invalid');
+      }}
+      type={InputTypes.number}
+      min={1}
+      max={users.length}
+    />
     <button type="button" className="btn btn-primary"
       onClick={createTeams} disabled={users.length === 0}
     >

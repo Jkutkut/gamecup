@@ -1,3 +1,4 @@
+import InputText from "../generic/InputText";
 import User from "./User";
 
 interface Props {
@@ -10,11 +11,13 @@ const Users = ({ users, setUsers }: Props) => {
   const addUsr = () => {
     const input = document.getElementById('addUsr') as HTMLInputElement;
     const user = input.value.trim();
+    input.classList.remove('is-invalid');
     if (user === '') return;
     if (users.includes(user)) {
-      alert('User already exists');
-      return; // TODO handle this better
+      input.classList.add('is-invalid');
+      return;
     }
+    input.classList.add('is-valid');
     setUsers([...users, user]);
     input.value = '';
     input.focus();
@@ -35,15 +38,18 @@ const Users = ({ users, setUsers }: Props) => {
 
   return (<>
     <h3>Add User:</h3>
-    <div className="input-group mb-3">
-      <span className="input-group-text" id="addUsrText">Username</span>
-      <input id="addUsr" type="text" className="form-control"
-        placeholder="" aria-label="Username" aria-describedby="addUsrText"
-        onKeyDown={(e) => {
-          if (e.key === 'Enter') addUsr();
-        }}
-      />
-    </div>
+    <InputText
+      id="addUsr"
+      label="Username"
+      placeholder=""
+      validText="User added successfully"
+      invalidText="Invalid username"
+      onEnter={addUsr}
+      onChange={(e) => {
+        e.classList.remove('is-invalid');
+        e.classList.remove('is-valid');
+      }}
+    />
     <button type="button" className="btn btn-primary" onClick={addUsr}>Add</button>
     <br/><br/>
     <h3>Users:</h3>
