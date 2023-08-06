@@ -41,26 +41,18 @@ function App() {
   return <>
     <Users users={users} setUsers={setUsers} />
     <h3>Game:</h3>
-    <div className='container text-center'>
-      <div className="row">
-        <div className="col">
-          <div className="input-group mb-3">
-            <span className="input-group-text" id="nbrTeamsText">Number of teams</span>
-            <input id="nbrTeams" type="number" className="form-control"
-              placeholder="" aria-label="Number of teams" aria-describedby="nbrTeamsText"
-              min={1} max={users.length}
-            />
-          </div>
-        </div>
-        <div className="col">
-          <button type="button" className="btn btn-primary"
-            onClick={createTeams} disabled={users.length === 0}
-          >
-            Create teams
-          </button>
-        </div>
-      </div>
+    <div className="input-group mb-3">
+      <span className="input-group-text" id="nbrTeamsText">Number of teams</span>
+      <input id="nbrTeams" type="number" className="form-control"
+        placeholder="" aria-label="Number of teams" aria-describedby="nbrTeamsText"
+        min={1} max={users.length}
+      />
     </div>
+    <button type="button" className="btn btn-primary"
+      onClick={createTeams} disabled={users.length === 0}
+    >
+      Create teams
+    </button>
     {teams && <>
       <h3>Teams:</h3>
       <div className='container text-center'>
