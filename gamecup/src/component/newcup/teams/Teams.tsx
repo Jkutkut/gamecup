@@ -12,36 +12,42 @@ interface Props {
 
 const TeamsComponent = ({users, teams, setTeams}: Props) => {
 
-  const createTeams = () => { // TODO refactor
+  const createTeams = () => {
     console.debug('createTeams');
     const nbrTeamsHtml = document.getElementById('nbrTeams') as HTMLInputElement;
-    let nbrTeams;
+    const getNbrTeams: () => number | null = () => {
+      let nbrTeams;
+      try {
+        nbrTeams = parseInt(nbrTeamsHtml.value);
+      } catch (e) {
+        return null;
+      }
+      if (isNaN(nbrTeams) || nbrTeams < 1 || nbrTeams > users.length) {
+        return null;
+      }
+      return nbrTeams;
+    };
     removeState(nbrTeamsHtml);
-    try {
-      nbrTeams = parseInt(nbrTeamsHtml.value);
-    } catch (e) {
-      setInvalid(nbrTeamsHtml);
-      return;
-    }
-    if (isNaN(nbrTeams) || nbrTeams < 1 || nbrTeams > users.length) {
+    const nbrTeams = getNbrTeams();
+    if (nbrTeams === null) {
       setInvalid(nbrTeamsHtml);
       return;
     }
     console.debug('nbrTeams', nbrTeams);
-    const shuffledUsers = [...users];
-    for (let i = shuffledUsers.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [shuffledUsers[i], shuffledUsers[j]] = [shuffledUsers[j], shuffledUsers[i]];
-    }
+    const shuffleArr = (arr: any[]) => {
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      return arr;
+    };
+    const shuffledUsers = shuffleArr([...users]);
     const newTeams: any[] = [];
     for (let i = 0; i < nbrTeams; i++) {
       newTeams.push([]);
     }
-    let j = 0;
-    for (let i = 0; i < shuffledUsers.length; i++) {
+    for (let i = 0, j = 0; i < shuffledUsers.length; i++, j = (j + 1) % nbrTeams) {
       newTeams[j].push(shuffledUsers[i]);
-      j++;
-      if (j === nbrTeams) j = 0;
     }
     setValid(nbrTeamsHtml);
     setTeams(newTeams.map((players) => new Team(players)));
