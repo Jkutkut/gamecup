@@ -1,5 +1,6 @@
 import InputText from "../../generic/InputText";
 import User from "./User";
+import { setInvalid, setValid, removeState } from "../../generic/InputText";
 
 interface Props {
   users: string[];
@@ -11,13 +12,13 @@ const Users = ({ users, setUsers }: Props) => {
   const addUsr = () => {
     const input = document.getElementById('addUsr') as HTMLInputElement;
     const user = input.value.trim();
-    input.classList.remove('is-invalid');
+    removeState(input);
     if (user === '') return;
     if (users.includes(user)) {
-      input.classList.add('is-invalid');
+      setInvalid(input);
       return;
     }
-    input.classList.add('is-valid');
+    setValid(input);
     setUsers([...users, user]);
     input.value = '';
     input.focus();
@@ -45,10 +46,7 @@ const Users = ({ users, setUsers }: Props) => {
       validText="User added successfully"
       invalidText="Invalid username"
       onEnter={addUsr}
-      onChange={(e) => {
-        e.classList.remove('is-invalid');
-        e.classList.remove('is-valid');
-      }}
+      onChange={removeState}
     />
     <button type="button" className="btn btn-primary" onClick={addUsr}>Add</button>
     <br/><br/>

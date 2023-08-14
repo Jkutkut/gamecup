@@ -1,5 +1,6 @@
 import InputText from "../../generic/InputText";
 import InputTypes from "../../generic/InputTypes";
+import { setValid, setInvalid, removeState } from "../../generic/InputText";
 
 interface Props {
   users: string[];
@@ -13,15 +14,15 @@ const Teams = ({users, teams, setTeams}: Props) => {
     console.debug('createTeams');
     const nbrTeamsHtml = document.getElementById('nbrTeams') as HTMLInputElement;
     let nbrTeams;
-    nbrTeamsHtml.classList.remove('is-valid');
+    removeState(nbrTeamsHtml);
     try {
       nbrTeams = parseInt(nbrTeamsHtml.value);
     } catch (e) {
-      nbrTeamsHtml.classList.add('is-invalid');
+      setInvalid(nbrTeamsHtml);
       return;
     }
     if (isNaN(nbrTeams) || nbrTeams < 1 || nbrTeams > users.length) {
-      nbrTeamsHtml.classList.add('is-invalid');
+      setInvalid(nbrTeamsHtml);
       return;
     }
     console.debug('nbrTeams', nbrTeams);
@@ -40,7 +41,7 @@ const Teams = ({users, teams, setTeams}: Props) => {
       j++;
       if (j === nbrTeams) j = 0;
     }
-    nbrTeamsHtml.classList.add('is-valid');
+    setValid(nbrTeamsHtml);
     setTeams(newTeams);
   };
 
@@ -54,10 +55,7 @@ const Teams = ({users, teams, setTeams}: Props) => {
         validText='Teams created successfully'
         invalidText='Invalid number of teams'
         onEnter={createTeams}
-        onChange={(e) => {
-          e.classList.remove('is-valid');
-          e.classList.remove('is-invalid');
-        }}
+        onChange={removeState}
         type={InputTypes.number}
         min={1}
         max={users.length}
