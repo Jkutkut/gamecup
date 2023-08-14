@@ -1,19 +1,24 @@
 import InputText from "../../generic/InputText";
-import User from "./User";
+import UserComponent from "./User";
 import { setInvalid, setValid, removeState } from "../../generic/InputText";
+import User from "../../../model/User";
 
 interface Props {
-  users: string[];
-  setUsers: (users: string[]) => void;
+  users: User[];
+  setUsers: (users: User[]) => void;
 }
 
 const Users = ({ users, setUsers }: Props) => {
 
   const addUsr = () => {
     const input = document.getElementById('addUsr') as HTMLInputElement;
-    const user = input.value.trim();
-    removeState(input);
-    if (user === '') return;
+    // const user = input.value.trim();
+    const userName = input.value.trim();
+    if (userName === '') {
+      setInvalid(input);
+      return;
+    }
+    const user = new User(input.value.trim());
     if (users.includes(user)) {
       setInvalid(input);
       return;
@@ -24,14 +29,14 @@ const Users = ({ users, setUsers }: Props) => {
     input.focus();
   };
 
-  const removeUsr = (user: string) => {
-    setUsers(users.filter((u) => u !== user));
+  const removeUsr = (user: User) => {
+    setUsers(users.filter((u) => u.getName() !== user.getName()));
   };
 
   let usersHtml;
   if (users.length > 0) {
-    usersHtml = users.map((user: string) => (
-      <User key={user} user={user} removeUsr={removeUsr} />
+    usersHtml = users.map((user: User, index) => (
+      <UserComponent key={index} user={user} removeUsr={removeUsr} />
     ));
   } else {
     usersHtml = <div>No users</div>;

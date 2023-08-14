@@ -1,9 +1,10 @@
 import InputText from "../../generic/InputText";
 import InputTypes from "../../generic/InputTypes";
 import { setValid, setInvalid, removeState } from "../../generic/InputText";
+import User from "../../../model/User";
 
 interface Props {
-  users: string[];
+  users: User[];
   teams: any[] | null;
   setTeams: (teams: any[] | null) => void;
 }
@@ -71,7 +72,7 @@ const Teams = ({users, teams, setTeams}: Props) => {
           {teams.map((team, i) => <div key={i}>
             <h4>team {i + 1}</h4>
             <div className="row">
-              {team.map((user: string) => <div className="col">{user}</div>)}
+              {team.map((user: User, index) => <div key={index} className="col">{user.getName()}</div>)}
             </div>
             <br /><br />
           </div>)}

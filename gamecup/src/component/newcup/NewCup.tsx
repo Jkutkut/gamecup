@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import Users from "./user/Users";
 import Teams from './teams/Teams';
+import User from '../../model/User';
 
 interface Props {
   teams: any[] | null;
@@ -9,10 +10,10 @@ interface Props {
 }
 
 const NewCup = ({teams, setTeams, begin}: Props) => {
-  const [users, setUsers] = useState<string[]>([]);
+  const [users, setUsers] = useState<User[]>([]);
   // const [teams, setTeams] = useState<any[] | null>(null);
 
-  const updateUsers = (newUsers: string[]) => {
+  const updateUsers = (newUsers: User[]) => {
     setUsers(newUsers);
     setTeams(null);
   };
