@@ -1,25 +1,16 @@
 import { useState } from 'react';
-import NewCup from './component/newcup/NewCup';
 import Team from './model/Team';
 import Game from './model/games/Game';
 import User from './model/User';
-import GameFactory from './model/games/GameFactory';
-import GameType from './model/games/GameType';
 import StorageHandler from './model/db/StorageHandler';
+import GameSelector from './component/gameSelector/GameSelector';
 
 function App() {
   const [gameHandler] = useState<StorageHandler>(StorageHandler.getInstance());
   const [game, setGame] = useState<Game | null>(gameHandler.getCurrentGame());
 
-  const begin = (type: GameType, name: String, teams: Team[]) => {
-    const gameFactory = GameFactory.getInstance();
-    let newGame = gameHandler.addGame(gameFactory.createGame(type, name, teams));
-    if (!newGame) return; // TODO handle
-    setGame(newGame);
-  };
-
   if (game == null)
-    return <NewCup createNewGame={begin} />;
+    return <GameSelector setGame={setGame} />;
   return <>
     <h1>{game.getName()}</h1>
     {game.getTeams().map((team: Team, index) =>
@@ -35,6 +26,7 @@ function App() {
         <br /><br />
       </div>
     )}
+    <button type='button' className='btn btn-primary' onClick={() => setGame(null)}>Select game</button>
   </>;
 }
 

@@ -30,10 +30,10 @@ class StorageHandler extends Model {
     return this.currentGame;
   }
 
-  public setCurrentGame(gameName: string): void {
-    this.debug("Setting current game to", gameName);
+  public setCurrentGame(game: Game): void {
+    this.debug("Setting current game to", game.getName());
     for (let i = 0; i < this.games.length; i++) {
-      if (this.games[i].getName() === gameName) {
+      if (this.games[i].getName() === game.getName()) {
         this.setCurrentGameObj(this.games[i]);
         return;
       }
@@ -63,11 +63,13 @@ class StorageHandler extends Model {
     return game;
   }
 
-  public deleteGame(gameName: string): void {
+  public deleteGame(game: Game): void {
     for (let i = 0; i < this.games.length; i++) {
-      if (this.games[i].getName() === gameName) {
+      if (this.games[i].getName() === game.getName()) {
         this.games.splice(i, 1);
-        this.save();
+        if (this.currentGame === game) {
+          this.unsetCurrentGame(); // saves for us
+        }
         return;
       }
     }
