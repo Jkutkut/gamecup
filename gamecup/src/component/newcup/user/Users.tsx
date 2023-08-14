@@ -1,4 +1,4 @@
-import InputText from "../generic/InputText";
+import InputText from "../../generic/InputText";
 import User from "./User";
 
 interface Props {
@@ -37,7 +37,7 @@ const Users = ({ users, setUsers }: Props) => {
   }
 
   return (<>
-    <h3>Add User:</h3>
+    <h3>Users:</h3>
     <InputText
       id="addUsr"
       label="Username"
