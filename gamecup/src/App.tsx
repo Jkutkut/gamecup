@@ -18,16 +18,20 @@ function App() {
 
   if (selectingTeams)
     return <NewCup createNewGame={begin} />;
+  if (!game)
+    throw new Error("Game is null");
   return <div>
-    Stated:
-    {game && game.getTeams().map((team: Team, i) => <div key={i}>
-      <h4>{team.getName()}</h4>
-      <div className="row">
-        {team.getPlayers().map((user: User, index) => <div key={index} className="col">{user.getName()}</div>)}
+    <h1>{game.getName()}</h1>
+    {game.getTeams().map((team: Team, i) => <>
+      <div key={i}>
+        <h4>{team.getName()}</h4>
+        <div className="row">
+          {team.getPlayers().map((user: User, index) => <div key={index} className="col">{user.getName()}</div>)}
+        </div>
+        <br /><br />
       </div>
-      <br /><br />
-    </div>)}
-  </div>
+    </>)}
+  </div>;
 }
 
 export default App
