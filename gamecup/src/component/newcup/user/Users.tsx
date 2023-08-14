@@ -2,6 +2,7 @@ import InputText from "../../generic/InputText";
 import UserComponent from "./User";
 import { setInvalid, setValid, removeState } from "../../generic/InputText";
 import User from "../../../model/User";
+import CollapsableContainer from "../../generic/collapse/CollapsableContainer";
 
 interface Props {
   users: User[];
@@ -9,10 +10,8 @@ interface Props {
 }
 
 const Users = ({ users, setUsers }: Props) => {
-
   const addUsr = () => {
     const input = document.getElementById('addUsr') as HTMLInputElement;
-    // const user = input.value.trim();
     const userName = input.value.trim();
     if (userName === '') {
       setInvalid(input);
@@ -43,22 +42,28 @@ const Users = ({ users, setUsers }: Props) => {
   }
 
   return (<>
-    <h3>Users:</h3>
-    <InputText
-      id="addUsr"
-      label="Username"
-      placeholder=""
-      validText="User added successfully"
-      invalidText="Invalid username"
-      onEnter={addUsr}
-      onChange={removeState}
-    />
-    <button type="button" className="btn btn-primary" onClick={addUsr}>Add</button>
-    <br/><br/>
-    <h3>Users:</h3>
-    <div className='container text-center'>
-      {usersHtml}
-    </div>
+    <CollapsableContainer title="Users:">
+      <div className='container text-center'>
+        {usersHtml}
+      </div>
+      <br />
+      <InputText
+        id="addUsr"
+        label="Username"
+        placeholder=""
+        validText="User added successfully"
+        invalidText="Invalid username"
+        onEnter={addUsr}
+        onChange={removeState}
+      />
+      <div className="d-grid col-6 mx-auto">
+        <button type='button' className='btn btn-primary'
+          onClick={addUsr}
+        >
+          Add
+        </button>
+      </div>
+    </CollapsableContainer>
   </>);
 }
 

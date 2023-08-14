@@ -6,6 +6,7 @@ import User from "../../../model/User";
 import Team from "../../../model/Team";
 import { useState } from "react";
 import { Button } from 'react-bootstrap';
+import CollapsableContainer from '../../generic/collapse/CollapsableContainer';
 
 interface Props {
   users: User[];
@@ -83,8 +84,7 @@ const TeamsComponent = ({users, teams, setTeams}: Props) => {
   }
 
   return (
-    <div>
-      <h3>Game:</h3>
+    <CollapsableContainer title='Game:' defaultCollapsed={true}>
       <InputText id='nbrTeams'
         label='Number of teams'
         placeholder=''
@@ -96,19 +96,22 @@ const TeamsComponent = ({users, teams, setTeams}: Props) => {
         min={1}
         max={users.length}
       />
-      <button type="button" className="btn btn-primary"
-        onClick={createTeams} disabled={users.length === 0}
-      >
-        Create teams
-      </button>
+      <div className='d-grid col-6 mx-auto'>
+        <button type="button" className="btn btn-primary"
+          onClick={createTeams} disabled={users.length === 0}
+        >
+          Create teams
+        </button>
+      </div>
       {teams && <>
+        <br />
         <h3>Teams:</h3>
         <div className='container text-center'>
           {teams.map((t: Team, i) => <div key={i}>
             <h4>
               {t.getName()}
-              &nbsp;
-              <button type="button" className="btn btn-primary btn-sm"
+              &nbsp;&nbsp;
+              <button type="button" className="btn btn-outline-secondary btn-sm"
                 onClick={() => setRenameTeamModal(t)}
               >
                 Rename
@@ -149,7 +152,7 @@ const TeamsComponent = ({users, teams, setTeams}: Props) => {
           </Modal.Footer>
         </Modal>
       </>}
-    </div>
+    </CollapsableContainer>
   );
 }
 

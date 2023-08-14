@@ -1,0 +1,10 @@
+.collapsable-title::before {
+    content: "▼";
+    display: inline-block;
+    width: 1.5em;
+    text-align: center;
+    cursor: pointer;
+}
+.collapsable-title.open::before {
+    transform: rotate(-90deg);
+}

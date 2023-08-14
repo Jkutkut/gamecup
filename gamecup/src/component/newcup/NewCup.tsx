@@ -24,10 +24,11 @@ const NewCup = ({createNewGame}: Props) => {
 
   return <>
     <Users users={users} setUsers={updateUsers} />
+    <br />
     <Teams users={users} teams={teams} setTeams={setTeams} />
     <br />
     {teams && teams.length > 0 && <>
-      <div className="d-grid">
+      <div className="fixed-bottom d-grid">
         <button type='button' className='btn btn-primary'
           onClick={begin}
         >
