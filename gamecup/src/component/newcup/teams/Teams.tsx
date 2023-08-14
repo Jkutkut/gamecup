@@ -1,12 +1,11 @@
-import Modal from 'react-bootstrap/Modal';
 import InputText from "../../generic/InputText";
 import InputTypes from "../../generic/InputTypes";
 import { setValid, setInvalid, removeState } from "../../generic/InputText";
 import User from "../../../model/User";
 import Team from "../../../model/Team";
 import { useState } from "react";
-import { Button } from 'react-bootstrap';
 import CollapsableContainer from '../../generic/collapse/CollapsableContainer';
+import Modal from "../../generic/modal/Modal";
 
 interface Props {
   users: User[];
@@ -100,56 +99,51 @@ const TeamsComponent = ({users, teams, setTeams}: Props) => {
         <button type="button" className="btn btn-primary"
           onClick={createTeams} disabled={users.length === 0}
         >
-          Create teams
+          {teams ? 'Shuffle' : 'Create teams'}
         </button>
       </div>
       {teams && <>
         <br />
         <h3>Teams:</h3>
         <div className='container text-center'>
-          {teams.map((t: Team, i) => <div key={i}>
-            <h4>
-              {t.getName()}
-              &nbsp;&nbsp;
-              <button type="button" className="btn btn-outline-secondary btn-sm"
-                onClick={() => setRenameTeamModal(t)}
-              >
-                Rename
-              </button>
-            </h4>
-            <div className="row">
-              {t.getPlayers().map((user: User, index) => <div key={index} className="col">{user.getName()}</div>)}
-            </div>
-            <br /><br />
-          </div>)}
+          {teams.map((t: Team, i) =>
+            <div key={i}>
+              <h4>
+                {t.getName()}
+                &nbsp;&nbsp;
+                <button type="button" className="btn btn-outline-secondary btn-sm"
+                  onClick={() => setRenameTeamModal(t)}
+                >
+                  Rename
+                </button>
+              </h4>
+              <div className="row">
+                {t.getPlayers().map((user: User, index) => 
+                  <div key={index} className="col">
+                    {user.getName()}
+                  </div>)
+                }
+              </div>
+              <br /><br />
+            </div>)
+          }
         </div>
         <Modal
           show={renameTeamModal !== null}
           onHide={closeModal}
-          keyboard={true}
+          title={`Rename ${renameTeamModal?.getName()}`}
+          confirmText={'Rename'}
+          onConfirm={renameTeam}
         >
-          <Modal.Header closeButton>
-            <Modal.Title>Rename {renameTeamModal?.getName()}</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-              <InputText id='renameTeam'
-                label='New name'
-                placeholder=''
-                validText='Team renamed successfully'
-                invalidText='Invalid name for team'
-                onEnter={renameTeam}
-                onChange={removeState}
-                type={InputTypes.text}
-              />
-          </Modal.Body>
-          <Modal.Footer>
-            <Button variant="secondary" onClick={closeModal}>
-              Close
-            </Button>
-            <Button variant="primary" onClick={() => renameTeam()}>
-              Rename
-            </Button>
-          </Modal.Footer>
+          <InputText id='renameTeam'
+            label='New name'
+            placeholder=''
+            validText='Team renamed successfully'
+            invalidText='Invalid name for team'
+            onEnter={renameTeam}
+            onChange={removeState}
+            type={InputTypes.text}
+          />
         </Modal>
       </>}
     </CollapsableContainer>
