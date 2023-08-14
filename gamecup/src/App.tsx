@@ -1,15 +1,18 @@
 import { useState } from 'react';
 import NewCup from './component/newcup/NewCup';
 import Team from './model/Team';
-import Game from './model/Game';
+import Game from './model/games/Game';
 import User from './model/User';
+import GameFactory from './model/games/GameFactory';
+import GameType from './model/games/GameType';
 
 function App() {
   const [game, setGame] = useState<Game | null>(null);
   const [selectingTeams, setSelectingTeams] = useState<boolean>(true); // TODO default false
 
-  const begin = (teams: Team[]) => {
-    setGame(new Game(teams));
+  const begin = (type: GameType, name: String, teams: Team[]) => {
+    const gameFactory = GameFactory.getInstance();
+    setGame(gameFactory.createGame(type, name, teams));
     setSelectingTeams(false);
   };
 

@@ -3,9 +3,12 @@ import Users from "./user/Users";
 import Teams from './teams/Teams';
 import User from '../../model/User';
 import Team from '../../model/Team';
+import GameType from '../../model/games/GameType';
+import InputText, { setInvalid, setValid } from '../generic/InputText';
+import InputTypes from '../generic/InputTypes';
 
 interface Props {
-  createNewGame: (teams: Team[]) => void;
+  createNewGame: (type: GameType, name: String, teams: Team[]) => void;
 }
 
 const NewCup = ({createNewGame}: Props) => {
@@ -18,11 +21,30 @@ const NewCup = ({createNewGame}: Props) => {
   };
 
   const begin = () => {
+    const cupNameHtml = document.getElementById('cupName') as HTMLInputElement;
+    const cupName = cupNameHtml.value.trim();
+    if (cupName === "") {
+      setInvalid(cupNameHtml);
+      return;
+    }
+    // TODO check other games
+    setValid(cupNameHtml);
     if (teams && teams.length > 0)
-      createNewGame(teams);
+      createNewGame(GameType.BASIC, cupName, teams); // TODO other games
   };
 
   return <>
+    <h1>New gamecup</h1>
+    <InputText
+      id='cupName'
+      label='Name'
+      placeholder=''
+      validText='Nice name!'
+      invalidText='Please enter a valid name'
+      onChange={() => {}}
+      onEnter={() => {}}
+      type={InputTypes.text}
+    />
     <Users users={users} setUsers={updateUsers} />
     <br />
     <Teams users={users} teams={teams} setTeams={setTeams} />
