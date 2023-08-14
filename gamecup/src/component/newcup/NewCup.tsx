@@ -2,20 +2,24 @@ import { useState } from 'react';
 import Users from "./user/Users";
 import Teams from './teams/Teams';
 import User from '../../model/User';
+import Team from '../../model/Team';
 
 interface Props {
-  teams: any[] | null;
-  setTeams: (teams: any[] | null) => void;
-  begin: () => void;
+  createNewGame: (teams: Team[]) => void;
 }
 
-const NewCup = ({teams, setTeams, begin}: Props) => {
+const NewCup = ({createNewGame}: Props) => {
   const [users, setUsers] = useState<User[]>([]);
-  // const [teams, setTeams] = useState<any[] | null>(null);
+  const [teams, setTeams] = useState<Team[] | null>(null);
 
   const updateUsers = (newUsers: User[]) => {
     setUsers(newUsers);
     setTeams(null);
+  };
+
+  const begin = () => {
+    if (teams && teams.length > 0)
+      createNewGame(teams);
   };
 
   return <>

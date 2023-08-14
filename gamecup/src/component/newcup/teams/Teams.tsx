@@ -2,14 +2,15 @@ import InputText from "../../generic/InputText";
 import InputTypes from "../../generic/InputTypes";
 import { setValid, setInvalid, removeState } from "../../generic/InputText";
 import User from "../../../model/User";
+import Team from "../../../model/Team";
 
 interface Props {
   users: User[];
-  teams: any[] | null;
-  setTeams: (teams: any[] | null) => void;
+  teams: Team[] | null;
+  setTeams: (teams: Team[]) => void;
 }
 
-const Teams = ({users, teams, setTeams}: Props) => {
+const TeamsComponent = ({users, teams, setTeams}: Props) => {
 
   const createTeams = () => { // TODO refactor
     console.debug('createTeams');
@@ -43,14 +44,13 @@ const Teams = ({users, teams, setTeams}: Props) => {
       if (j === nbrTeams) j = 0;
     }
     setValid(nbrTeamsHtml);
-    setTeams(newTeams);
+    setTeams(newTeams.map((players) => new Team(players)));
   };
 
   return (
     <div>
       <h3>Game:</h3>
-      <InputText
-        id='nbrTeams'
+      <InputText id='nbrTeams'
         label='Number of teams'
         placeholder=''
         validText='Teams created successfully'
@@ -69,10 +69,10 @@ const Teams = ({users, teams, setTeams}: Props) => {
       {teams && <>
         <h3>Teams:</h3>
         <div className='container text-center'>
-          {teams.map((team, i) => <div key={i}>
-            <h4>team {i + 1}</h4>
+          {teams.map((t: Team, i) => <div key={i}>
+            <h4>{t.getName()}</h4>
             <div className="row">
-              {team.map((user: User, index) => <div key={index} className="col">{user.getName()}</div>)}
+              {t.getPlayers().map((user: User, index) => <div key={index} className="col">{user.getName()}</div>)}
             </div>
             <br /><br />
           </div>)}
@@ -82,4 +82,4 @@ const Teams = ({users, teams, setTeams}: Props) => {
   );
 }
 
-export default Teams;
+export default TeamsComponent;
