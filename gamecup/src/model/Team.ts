@@ -19,7 +19,11 @@ class Team {
                 return `${this.players[0].getName()}'s team`;
             return "Team without name";
         }
-        return this.name;
+        return `Team ${this.name}`;
+    }
+
+    public setName(name: String): void {
+        this.name = name; // ! Not validated
     }
 }
 
