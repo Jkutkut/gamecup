@@ -5,32 +5,36 @@ import Game from './model/games/Game';
 import User from './model/User';
 import GameFactory from './model/games/GameFactory';
 import GameType from './model/games/GameType';
+import StorageHandler from './model/db/StorageHandler';
 
 function App() {
-  const [game, setGame] = useState<Game | null>(null);
-  const [selectingTeams, setSelectingTeams] = useState<boolean>(true); // TODO default false
+  const [gameHandler] = useState<StorageHandler>(StorageHandler.getInstance());
+  const [game, setGame] = useState<Game | null>(gameHandler.getCurrentGame());
 
   const begin = (type: GameType, name: String, teams: Team[]) => {
     const gameFactory = GameFactory.getInstance();
-    setGame(gameFactory.createGame(type, name, teams));
-    setSelectingTeams(false);
+    let newGame = gameHandler.addGame(gameFactory.createGame(type, name, teams));
+    if (!newGame) return; // TODO handle
+    setGame(newGame);
   };
 
-  if (selectingTeams)
+  if (game == null)
     return <NewCup createNewGame={begin} />;
-  if (!game)
-    throw new Error("Game is null");
   return <>
     <h1>{game.getName()}</h1>
-    {game.getTeams().map((team: Team, i) => <>
-      <div key={i}>
+    {game.getTeams().map((team: Team, index) =>
+      <div key={index}>
         <h4>{team.getName()}</h4>
         <div className="row">
-          {team.getPlayers().map((user: User, index) => <div key={index} className="col">{user.getName()}</div>)}
+          {team.getPlayers().map((user: User, idx) =>
+            <div key={idx} className="col">
+              {user.getName()}
+            </div>
+          )}
         </div>
         <br /><br />
       </div>
-    </>)}
+    )}
   </>;
 }
 

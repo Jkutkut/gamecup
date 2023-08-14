@@ -5,8 +5,12 @@ class User {
         this.name = name;
     }
 
-    getName(): String {
+    public getName(): String {
         return this.name;
+    }
+
+    public static fromJSON(json: any): User {
+        return new User(json.name);
     }
 }
 

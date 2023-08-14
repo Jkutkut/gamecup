@@ -25,6 +25,11 @@ class Team {
     public setName(name: String): void {
         this.name = name; // ! Not validated
     }
+
+    public static fromJSON(json: any): Team {
+        const players: User[] = json.players.map((player: any) => User.fromJSON(player));
+        return new Team(players, json.name);
+    }
 }
 
 export default Team;
