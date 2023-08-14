@@ -20,7 +20,7 @@ function App() {
     return <NewCup createNewGame={begin} />;
   if (!game)
     throw new Error("Game is null");
-  return <div>
+  return <>
     <h1>{game.getName()}</h1>
     {game.getTeams().map((team: Team, i) => <>
       <div key={i}>
@@ -31,7 +31,7 @@ function App() {
         <br /><br />
       </div>
     </>)}
-  </div>;
+  </>;
 }
 
 export default App
