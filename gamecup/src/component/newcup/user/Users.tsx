@@ -18,7 +18,7 @@ const Users = ({ users, setUsers }: Props) => {
       return;
     }
     const user = new User(input.value.trim());
-    if (users.includes(user)) {
+    if (users.find((u) => u.getName() === user.getName())) {
       setInvalid(input);
       return;
     }
