@@ -33,7 +33,7 @@ const NewCup = ({createNewGame}: Props) => {
       createNewGame(GameType.BASIC, cupName, teams); // TODO other games
   };
 
-  return <>
+  return <div className='p-3'>
     <h1>New gamecup</h1>
     <InputText
       id='cupName'
@@ -49,6 +49,7 @@ const NewCup = ({createNewGame}: Props) => {
     <br />
     <Teams users={users} teams={teams} setTeams={setTeams} />
     <br />
+    <br />
     {teams && teams.length > 0 && <>
       <div className="fixed-bottom d-grid">
         <button type='button' className='btn btn-primary'
@@ -58,7 +59,7 @@ const NewCup = ({createNewGame}: Props) => {
         </button>
       </div>
     </>}
-  </>;
+  </div>;
 }
 
 export default NewCup;

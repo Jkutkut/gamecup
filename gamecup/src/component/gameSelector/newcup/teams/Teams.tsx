@@ -104,27 +104,31 @@ const TeamsComponent = ({users, teams, setTeams}: Props) => {
       </div>
       {teams && <>
         <br />
-        <h3>Teams:</h3>
-        <div className='container text-center'>
+        <div
+          className='container text-center card gap-3 p-3'
+          style={{maxHeight:'60vh', overflowX:"scroll"}}
+        >
           {teams.map((t: Team, i) =>
-            <div key={i}>
-              <h4>
-                {t.getName()}
-                &nbsp;&nbsp;
-                <button type="button" className="btn btn-outline-secondary btn-sm"
-                  onClick={() => setRenameTeamModal(t)}
-                >
-                  Rename
-                </button>
-              </h4>
-              <div className="row">
+            <div key={i} className="card p-3">
+              <div className="row p-2">
+                <h4 className="col">
+                  {t.getName()}
+                </h4>
+                <div className="col text-end">
+                  <button type="button" className="btn btn-outline-secondary btn-sm"
+                    onClick={() => setRenameTeamModal(t)}
+                  >
+                    Rename
+                  </button>
+                </div>
+              </div>
+              <div className="row p-2">
                 {t.getPlayers().map((user: User, index) => 
                   <div key={index} className="col">
                     {user.getName()}
                   </div>)
                 }
               </div>
-              <br /><br />
             </div>)
           }
         </div>

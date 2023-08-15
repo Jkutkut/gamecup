@@ -76,7 +76,6 @@ const TeamRanking = ({teams, points}: Props) => {
             </div>
           )}
         </div>
-        <br /><br />
       </div>
     );
   }
@@ -92,7 +91,7 @@ const TeamRanking = ({teams, points}: Props) => {
       </select>
       <label htmlFor="teamRankingOrder">Ranking type</label>
     </div>
-    <div style={{marginTop: "15px"}}>
+    <div className="card p-3 gap-4" style={{marginTop: "15px", maxHeight: '50vh', overflowX: 'scroll'}}>
       {listHtml}
     </div>
   </>;

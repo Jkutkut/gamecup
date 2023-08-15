@@ -43,7 +43,7 @@ const Users = ({ users, setUsers }: Props) => {
 
   return (<>
     <CollapsableContainer title="Users:">
-      <div className='container text-center'>
+      <div className='container text-center' style={{maxHeight:'60vh', overflowX:"scroll"}}>
         {usersHtml}
       </div>
       <br />

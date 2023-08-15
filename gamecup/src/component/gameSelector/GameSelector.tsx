@@ -70,7 +70,7 @@ const GameSelector = ({setGame}: Props) => {
             </div>
 
             <div className="row justify-content-center gap-3"
-              style={{padding: '20px'}}
+              style={{padding: '20px', maxHeight:"50vh", overflowX:'scroll'}}
             >
               {game.getTeams().map((team: Team, idx) =>
                 <div key={idx} className="card row gap-1 p-2" 
