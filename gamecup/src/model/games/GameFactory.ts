@@ -1,4 +1,4 @@
-import Team from "../Team";
+import Team from "../teams/Team";
 import Game from "./Game";
 import GameType from "./GameType";
 

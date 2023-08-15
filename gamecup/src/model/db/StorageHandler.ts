@@ -117,6 +117,10 @@ class StorageHandler extends Model {
     localStorage.setItem("currentGame", JSON.stringify(this.currentGame));
     this.debug("Saved games to localStorage");
   }
+
+  public hardSave(): void {
+    this.save();
+  }
 }
 
 export default StorageHandler;

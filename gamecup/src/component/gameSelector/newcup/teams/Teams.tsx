@@ -2,7 +2,7 @@ import InputText from "../../../generic/InputText";
 import InputTypes from "../../../generic/InputTypes";
 import { setValid, setInvalid, removeState } from "../../../generic/InputText";
 import User from "../../../../model/User";
-import Team from "../../../../model/Team";
+import Team from "../../../../model/teams/Team";
 import { useState } from "react";
 import CollapsableContainer from '../../../generic/collapse/CollapsableContainer';
 import Modal from "../../../generic/modal/Modal";
@@ -83,7 +83,7 @@ const TeamsComponent = ({users, teams, setTeams}: Props) => {
   }
 
   return (
-    <CollapsableContainer title='Game:' defaultCollapsed={true}>
+    <CollapsableContainer title='Game:' defaultCollapsed={false}>
       <InputText id='nbrTeams'
         label='Number of teams'
         placeholder=''

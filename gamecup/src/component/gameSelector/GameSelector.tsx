@@ -1,5 +1,5 @@
 import { useState } from "react";
-import Team from "../../model/Team";
+import Team from "../../model/teams/Team";
 import StorageHandler from "../../model/db/StorageHandler";
 import Game from "../../model/games/Game";
 import GameFactory from "../../model/games/GameFactory";
