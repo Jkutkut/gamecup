@@ -4,7 +4,7 @@ import StorageHandler from "../../model/db/StorageHandler";
 import Game from "../../model/games/Game";
 import GameFactory from "../../model/games/GameFactory";
 import GameType from "../../model/games/GameType";
-import NewCup from "../newcup/NewCup";
+import NewCup from "./newcup/NewCup";
 import User from "../../model/User";
 
 interface Props {
@@ -38,7 +38,7 @@ const GameSelector = ({setGame}: Props) => {
   if (isNewGame)
     return <NewCup createNewGame={begin} />;
 
-  return <>
+  return <div className="p-3">
     {games.length > 0 &&
       <>
         <h1>Choose a game</h1>
@@ -99,7 +99,7 @@ const GameSelector = ({setGame}: Props) => {
         New game
       </button>
     </div>
-  </>;
+  </div>;
 }
 
 export default GameSelector;

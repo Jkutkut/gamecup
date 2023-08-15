@@ -1,11 +1,11 @@
 import { useState } from 'react';
 import Users from "./user/Users";
 import Teams from './teams/Teams';
-import User from '../../model/User';
-import Team from '../../model/Team';
-import GameType from '../../model/games/GameType';
-import InputText, { setInvalid, setValid } from '../generic/InputText';
-import InputTypes from '../generic/InputTypes';
+import User from '../../../model/User';
+import Team from '../../../model/Team';
+import GameType from '../../../model/games/GameType';
+import InputText, { setInvalid, setValid } from '../../generic/InputText';
+import InputTypes from '../../generic/InputTypes';
 
 interface Props {
   createNewGame: (type: GameType, name: String, teams: Team[]) => void;

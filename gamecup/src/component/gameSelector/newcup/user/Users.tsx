@@ -1,8 +1,8 @@
-import InputText from "../../generic/InputText";
+import InputText from "../../../generic/InputText";
 import UserComponent from "./User";
-import { setInvalid, setValid, removeState } from "../../generic/InputText";
-import User from "../../../model/User";
-import CollapsableContainer from "../../generic/collapse/CollapsableContainer";
+import { setInvalid, setValid, removeState } from "../../../generic/InputText";
+import User from "../../../../model/User";
+import CollapsableContainer from "../../../generic/collapse/CollapsableContainer";
 
 interface Props {
   users: User[];
