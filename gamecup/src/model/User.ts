@@ -9,6 +9,10 @@ class User {
         return this.name;
     }
 
+    public equals(other: User): boolean {
+        return this.name == other.name;
+    }
+
     public static fromJSON(json: any): User {
         return new User(json.name);
     }

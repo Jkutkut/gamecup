@@ -19,8 +19,7 @@ const GameSelector = ({setGame}: Props) => {
 
   const begin = (type: GameType, name: String, teams: Team[]) => {
     const gameFactory = GameFactory.getInstance();
-    let newGame = gameHandler.addGame(gameFactory.createGame(type, name, teams));
-    if (!newGame) return; // TODO handle
+    const newGame = gameHandler.addGame(gameFactory.createGame(type, name, teams));
     setGame(newGame);
   };
 

@@ -1,17 +1,24 @@
+import Model from "../Model";
+import GameAction from "../actions/GameAction";
+import GameActionFactory from "../actions/GameActionFactory";
+import ScoreAction from "../actions/ScoreAction";
 import Team from "../teams/Team";
 
-class Game {
+class Game extends Model {
     private name: String;
     private teams: Team[];
     private points: number[];
+    private history: GameAction[]; // TODO use stack
 
     constructor(name: String, teams: Team[]) {
+        super();
         this.name = name;
         this.teams = teams;
         this.points = [];
         for (let i = 0; i < teams.length; i++) {
             this.points.push(0);
         }
+        this.history = [];
     }
 
     public getTeams(): Team[] {
@@ -30,11 +37,44 @@ class Game {
         return this.name;
     }
 
+    public getHistory(): GameAction[] {
+        return this.history;
+    }
+
+    public teamIndex(team: Team): number {
+        for (let i = 0; i < this.teams.length; i++) {
+            if (team.equals(this.teams[i])) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
     // ------------------------------
+
+    private applyAction(action: GameAction) {
+        this.debug("Applying", action);
+        const actionType = action.constructor.name;
+        switch (actionType) {
+            case ScoreAction.name:
+                const scoreAction = action as ScoreAction;
+                const idx = this.teamIndex(scoreAction.getTeam());
+                this.debug("Adding", scoreAction.getPoints(), "to", this.teams[idx].getName());
+                this.points[idx] += scoreAction.getPoints();
+                break;
+            // default: nothing
+        }
+    }
+
+    private addAction(action: GameAction) {
+        this.history.push(action);
+        this.applyAction(action);
+    }
 
     public testScore() {
         const randomTeamIdx = Math.floor(Math.random() * this.teams.length);
-        this.points[randomTeamIdx] += 1;
+        const r = new ScoreAction(this.teams[randomTeamIdx], Math.floor(Math.random() * 10) + 1);
+        this.addAction(r);
     }
 
     // ------------------------------
@@ -42,7 +82,11 @@ class Game {
     public static fromJSON(json: any): Game {
         const teams: Team[] = json.teams.map((team: any) => Team.fromJSON(team));
         const g = new Game(json.name, teams);
-        g.points = json.points;
+        const gameActionFactory = GameActionFactory.getInstance();
+        g.history = gameActionFactory.fromJSON(json.history);
+        for (let i = 0; i < g.history.length; i++) {
+            g.applyAction(g.history[i]);
+        }
         return g;
     }
 }

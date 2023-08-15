@@ -22,6 +22,18 @@ class Team {
         return `Team ${this.name}`;
     }
 
+    public equals(team: Team): boolean {
+        if (this.name != team.name)
+            return false;
+        if (this.players.length != team.players.length)
+            return false;
+        for (let i = 0; i < this.players.length; i++) {
+            if (!this.players[i].equals(team.players[i]))
+                return false;
+        }
+        return true;
+    }
+
     public setName(name: String): void {
         this.name = name; // ! Not validated
     }
