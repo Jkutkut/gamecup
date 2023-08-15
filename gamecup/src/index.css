@@ -14,3 +14,7 @@
 .collapsable-title.open::before {
     transform: rotate(-90deg);
 }
+
+.navbar + .body-content {
+    margin-top: 60px;
+}
