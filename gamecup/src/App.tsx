@@ -52,7 +52,7 @@ function App() {
     </div>
     <br />
     <br />
-    <div className='fixed-bottom d-grid'>
+    <div className='d-grid'>
       <button
         type='button'
         className='btn btn-primary'

@@ -3,7 +3,7 @@ import GameAction from "../../model/actions/GameAction";
 import GameActionFactory from "../../model/actions/GameActionFactory";
 import Game from "../../model/games/Game";
 import Modal from "../generic/modal/Modal";
-import InputText from "../generic/InputText";
+import InputText, { setInvalid, setValid } from "../generic/InputText";
 import InputTypes from "../generic/InputTypes";
 
 interface Props {
@@ -28,7 +28,24 @@ const ModalAddScore = ({
 
   const addNew = () => {
     const scoreHtml = document.getElementById('score') as HTMLInputElement;
-    const score = parseInt(scoreHtml.value); // TODO handle
+    const getScore: () => number | null = () => {
+      let nbrTeams;
+      try {
+        nbrTeams = parseInt(scoreHtml.value);
+      } catch (e) {
+        return null;
+      }
+      if (isNaN(nbrTeams) || nbrTeams < 1) {
+        return null;
+      }
+      return nbrTeams;
+    };
+    const score = getScore();
+    if (score === null) {
+      setInvalid(scoreHtml);
+      return;
+    }
+    setValid(scoreHtml);
 
     const newAction = gameActionFactory.newAction(
       actionTypes[actionType],
@@ -47,28 +64,31 @@ const ModalAddScore = ({
       confirmText={'Add'}
       onConfirm={addNew}
     >
-      action type
-      <select
-        className="form-select"
-        value={actionType}
-        onChange={(e) => setActionType(parseInt(e.target.value))}
-      >
-        {actionTypes.map((actionType, idx) => (
-          <option key={idx} value={idx}>{actionType}</option>
-        ))}
-      </select>
-
-      Team
-      <select
-        className="form-select"
-        value={team}
-        onChange={(e) => setTeam(parseInt(e.target.value))}
-      >
-        {teams.map((team, idx) => (
-          <option key={idx} value={idx}>{team.getName()}</option>
-        ))}
-      </select>
+      <div className="form-floating">
+        <select id="actionType"
+          className="form-select"
+          value={actionType}
+          onChange={(e) => setActionType(parseInt(e.target.value))}
+        >
+          {actionTypes.map((actionType, idx) => (
+            <option key={idx} value={idx}>{actionType}</option>
+          ))}
+        </select>
+        <label htmlFor="actionType">Action type</label>
+      </div>
       <br />
+      <div className="form-floating">
+        <select id="team"
+          className="form-select"
+          value={team}
+          onChange={(e) => setTeam(parseInt(e.target.value))}
+        >
+          {teams.map((team, idx) => (
+            <option key={idx} value={idx}>{team.getName()}</option>
+          ))}
+        </select>
+        <label htmlFor="team">Team</label>
+      </div>
       <br />
       <InputText
         id="score"
