@@ -6,9 +6,7 @@ import Navbar from './component/navbar.tsx/Navbar';
 import TeamRanking from './component/teamRanking/TeamRanking';
 import GameAction from './model/actions/GameAction';
 import CollapsableContainer from './component/generic/collapse/CollapsableContainer';
-import Modal from './component/generic/modal/Modal';
-import ScoreAction from './model/actions/ScoreAction';
-import GameActionFactory from './model/actions/GameActionFactory';
+import ModalAddScore from './component/ModalAddScore/ModalAddScore';
 
 function App() {
   const [gameHandler] = useState<StorageHandler>(StorageHandler.getInstance());
@@ -21,6 +19,14 @@ function App() {
       setGame(game);
       setPoints(game.getPoints());
     }} />;
+
+  const score = (action: GameAction) => {
+    game.addAction(action);
+    setPoints([...game.getPoints()]);
+    gameHandler.hardSave();
+    setAddingScore(false);
+  };
+
   return <>
     <Navbar
       game={game}
@@ -55,35 +61,12 @@ function App() {
         Add Score
       </button>
     </div>
-    <Modal
-      title='Add Score'
+    <ModalAddScore
       show={addingScore}
       onHide={() => setAddingScore(false)}
-      confirmText={'Add'}
-      onConfirm={() => {
-        const teams = game.getTeams();
-
-        const randomTeamIdx = Math.floor(Math.random() * teams.length);
-        const randomScore = Math.floor(Math.random() * 5) + 1;
-
-        // const r = new ScoreAction(teams[randomTeamIdx], Math.floor(Math.random() * 10) + 1);
-        const gameActionFactory = GameActionFactory.getInstance();
-        const types = gameActionFactory.getTypes();
-        const randomTypeIdx = Math.floor(Math.random() * types.length);
-        const newAction = gameActionFactory.newAction(
-          types[randomTypeIdx],
-          teams[randomTeamIdx],
-          randomScore
-        );
-        if (newAction === null) return; // TODO handle
-        game.addAction(newAction);
-        setPoints([...game.getPoints()]);
-        gameHandler.hardSave();
-        setAddingScore(false);
-      }}
-    >
-
-    </Modal>
+      game={game}
+      onNewGameAction={score}
+    />
   </>;
 }
 
