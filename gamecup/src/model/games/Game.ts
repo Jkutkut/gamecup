@@ -67,15 +67,9 @@ class Game extends Model {
         }
     }
 
-    private addAction(action: GameAction) {
+    public addAction(action: GameAction) {
         this.history.push(action);
         this.applyAction(action);
-    }
-
-    public testScore() {
-        const randomTeamIdx = Math.floor(Math.random() * this.teams.length);
-        const r = new ScoreAction(this.teams[randomTeamIdx], Math.floor(Math.random() * 10) + 1);
-        this.addAction(r);
     }
 
     // ------------------------------
