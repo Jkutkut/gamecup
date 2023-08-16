@@ -9,9 +9,11 @@ import InputTypes from '../../generic/InputTypes';
 
 interface Props {
   createNewGame: (type: GameType, name: String, teams: Team[]) => void;
+  cancelable: boolean;
+  onCancel: () => void;
 }
 
-const NewCup = ({createNewGame}: Props) => {
+const NewCup = ({createNewGame, cancelable, onCancel}: Props) => {
   const [users, setUsers] = useState<User[]>([]);
   const [teams, setTeams] = useState<Team[] | null>(null);
 
@@ -30,11 +32,22 @@ const NewCup = ({createNewGame}: Props) => {
     // TODO check other games
     setValid(cupNameHtml);
     if (teams && teams.length > 0)
-      createNewGame(GameType.BASIC, cupName, teams); // TODO other games
+      createNewGame(GameType.BASIC, cupName, teams);
   };
 
   return <div className='p-3'>
-    <h1>New gamecup</h1>
+    <div className='row mb-3'>
+      <h1 className='col-8'>New gamecup</h1>
+      <div className='col text-end'>
+        {cancelable &&
+          <button type='button' className='btn btn-danger'
+            onClick={onCancel}
+          >
+            Cancel
+          </button>
+        }
+      </div>
+    </div>
     <InputText
       id='cupName'
       label='Name'

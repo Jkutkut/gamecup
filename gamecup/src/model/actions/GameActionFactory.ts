@@ -7,6 +7,10 @@ enum GameActionTypes {
   SCORE_ACTION = "scoreAction",
 }
 
+enum GameActionTypesNames {
+  SCORE_ACTION = "New score",
+}
+
 class GameActionFactory extends Model {
   private static instance: GameActionFactory;
 
@@ -26,6 +30,10 @@ class GameActionFactory extends Model {
 
   public getTypes(): string[] {
     return Object.values(GameActionTypes);
+  }
+
+  public getTypesNames(): string[] {
+    return Object.values(GameActionTypesNames);
   }
 
   public newAction(type: string, ...args: any[]): GameAction | null {

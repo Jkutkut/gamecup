@@ -41,7 +41,7 @@ function App() {
       </CollapsableContainer>
       <br />
       <CollapsableContainer title='History' >
-        <div className="card" style={{maxHeight: '50vh', overflowX: 'scroll'}}>
+        <div className="card gap-2 p-2" style={{maxHeight: '50vh', overflowX: 'scroll'}}>
           {game.getHistory().map((action: GameAction, index: number) =>
             <div key={index}>
               {action.toJSX()}
@@ -50,7 +50,6 @@ function App() {
         </div>
       </CollapsableContainer>
     </div>
-    <br />
     <br />
     <div className='d-grid'>
       <button

@@ -22,6 +22,7 @@ const ModalAddScore = ({
 
   const gameActionFactory = GameActionFactory.getInstance();
   const actionTypes = gameActionFactory.getTypes();
+  const actionTypesNames = gameActionFactory.getTypesNames();
   const teams = game.getTeams();
 
   const addNew = () => {
@@ -55,8 +56,8 @@ const ModalAddScore = ({
             value={actionType}
             onChange={(e) => setActionType(parseInt(e.target.value))}
           >
-            {actionTypes.map((actionType, idx) => (
-              <option key={idx} value={idx}>{actionType}</option>
+            {actionTypesNames.map((actionTypeName, idx) => (
+              <option key={idx} value={idx}>{actionTypeName}</option>
             ))}
           </select>
           <label htmlFor="actionType">Action type</label>

@@ -62,7 +62,7 @@ const TeamRanking = ({teams, points}: Props) => {
     const team = sortedTeams[i];
     const pts = sortedPoints[i];
     listHtml.push(
-      <div key={i}>
+      <div key={i} className="card p-3">
         <div className="row">
           <h4 className="col col-8">{team.getName()}</h4>
           <h4 className="col text-end">

@@ -35,7 +35,11 @@ const GameSelector = ({setGame}: Props) => {
   };
 
   if (isNewGame)
-    return <NewCup createNewGame={begin} />;
+    return <NewCup
+      createNewGame={begin}
+      cancelable={currentGame !== null}
+      onCancel={() => setIsNewGame(false)}
+    />;
 
   return <div className="p-3">
     {games.length > 0 &&
