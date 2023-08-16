@@ -9,10 +9,6 @@ abstract class GameAction implements EqualsInterface {
     return <></>;
   }
 
-  public getPoints(): number {
-    return 0;
-  }
-
   public equals(obj: EqualsInterface): boolean {
     return this === obj;
   }

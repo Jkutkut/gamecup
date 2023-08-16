@@ -1,28 +1,24 @@
 import { useState } from "react";
-import Team from "../../../model/teams/Team";
 import InputText, { setInvalid, setValid } from "../../generic/InputText";
 import InputTypes from "../../generic/InputTypes";
+import GameActionFormProps from "./GameActionFormProps";
 
-interface Props {
-  teams: Team[];
-}
-
-const ScoreActionForm = ({teams}: Props) => {
+const ScoreActionForm = ({teams}: GameActionFormProps) => {
   const [team, setTeam] = useState<number>(0);
 
   const validateAndSubmit: () => any[] | null = () => {
     const scoreHtml = document.getElementById('score') as HTMLInputElement;
     const getScore: () => number | null = () => { // TODO refactor
-      let nbrTeams;
+      let score;
       try {
-        nbrTeams = parseInt(scoreHtml.value);
+        score = parseInt(scoreHtml.value);
       } catch (e) {
         return null;
       }
-      if (isNaN(nbrTeams) || nbrTeams < 1) {
+      if (isNaN(score) || score < 1) {
         return null;
       }
-      return nbrTeams;
+      return score;
     };
     const score = getScore();
     if (score === null) {

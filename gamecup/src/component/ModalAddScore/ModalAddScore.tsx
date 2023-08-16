@@ -4,6 +4,8 @@ import GameActionFactory from "../../model/actions/GameActionFactory";
 import Game from "../../model/games/Game";
 import Modal from "../generic/modal/Modal";
 import ScoreActionForm from "./scoreAction/ScoreActionForm";
+import GameActionTypes from "../../model/actions/interfaces/GameActionTypes";
+import MsgActionForm from "./scoreAction/MsgActionForm";
 
 interface Props {
   show: boolean;
@@ -18,28 +20,38 @@ const ModalAddScore = ({
   onHide,
   onNewGameAction
 }: Props) => {
-  const [actionType, setActionType] = useState<number>(0);
+  const [actionType, setActionType] = useState<GameActionTypes>(GameActionTypes.SCORE_ACTION);
+  // const [actionType, setActionType] = useState<GameActionTypes>(GameActionTypes.MSG_ACTION);
 
   const gameActionFactory = GameActionFactory.getInstance();
   const actionTypes = gameActionFactory.getTypes();
   const actionTypesNames = gameActionFactory.getTypesNames();
   const teams = game.getTeams();
 
+  // TODO fix: Not the same amount of hooks
+  let form: {html: JSX.Element, validateAndSubmit: () => any};
+  switch(actionType) {
+    case GameActionTypes.SCORE_ACTION:
+      form = ScoreActionForm({teams});
+      break;
+    case GameActionTypes.MSG_ACTION:
+      form = MsgActionForm({teams});
+      break;
+    default:
+      throw new Error("Invalid action type");
+  }
+
   const addNew = () => {
-    const result = validateAndSubmit();
+    const result = form.validateAndSubmit();
     if (!result) return;
     console.log("")
     const newAction = gameActionFactory.newAction(
-      actionTypes[actionType],
+      actionType,
       ...result
     );
     if (newAction === null) return; // TODO handle
     onNewGameAction(newAction);
   };
-
-  const {html, validateAndSubmit} = ScoreActionForm(
-    {teams}
-  );
 
   return (
     <Modal
@@ -54,15 +66,17 @@ const ModalAddScore = ({
           <select id="actionType"
             className="form-select"
             value={actionType}
-            onChange={(e) => setActionType(parseInt(e.target.value))}
+            onChange={(e) => {
+              setActionType(e.target.value as GameActionTypes);
+            }}
           >
             {actionTypesNames.map((actionTypeName, idx) => (
-              <option key={idx} value={idx}>{actionTypeName}</option>
+              <option key={idx} value={actionTypes[idx]}>{actionTypeName}</option>
             ))}
           </select>
           <label htmlFor="actionType">Action type</label>
         </div>
-        {html}
+        {form.html}
       </div>
     </Modal>
   );

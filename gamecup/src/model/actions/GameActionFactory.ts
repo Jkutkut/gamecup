@@ -1,15 +1,10 @@
 import Model from "../Model";
 import Team from "../teams/Team";
 import GameAction from "./GameAction";
+import MsgAction from "./MsgAction";
 import ScoreAction from "./ScoreAction";
-
-enum GameActionTypes {
-  SCORE_ACTION = "scoreAction",
-}
-
-enum GameActionTypesNames {
-  SCORE_ACTION = "New score",
-}
+import GameActionTypes from "./interfaces/GameActionTypes";
+import GameActionTypesNames from "./interfaces/GameActionTypesNames";
 
 class GameActionFactory extends Model {
   private static instance: GameActionFactory;
@@ -28,11 +23,11 @@ class GameActionFactory extends Model {
 
   // ----------- FACTORY -------------
 
-  public getTypes(): string[] {
+  public getTypes(): GameActionTypes[] {
     return Object.values(GameActionTypes);
   }
 
-  public getTypesNames(): string[] {
+  public getTypesNames(): GameActionTypesNames[] {
     return Object.values(GameActionTypesNames);
   }
 
@@ -43,6 +38,10 @@ class GameActionFactory extends Model {
         return new ScoreAction(
           args[0] as Team,
           args[1] as number,
+        );
+      case GameActionTypes.MSG_ACTION:
+        return new MsgAction(
+          args[0] as string
         );
     }
     this.error("Unknown action type", type);
@@ -63,6 +62,8 @@ class GameActionFactory extends Model {
     switch (json.class) {
       case ScoreAction.name:
         return ScoreAction.fromJSON(json);
+      case MsgAction.name:
+        return MsgAction.fromJSON(json);
       default:
         throw new Error("Unknown GameAction class: " + json.class);
     }
