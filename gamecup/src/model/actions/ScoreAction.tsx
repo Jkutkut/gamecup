@@ -27,6 +27,12 @@ class ScoreAction extends GameAction {
     </>;
   }
 
+  public equals(other: ScoreAction): boolean {
+    if (super.equals(other))
+      return true;
+    return this.team.equals(other.team) && this.points === other.points;
+  }
+
   // ---------- JSON ----------
 
   public toJSON(): any {

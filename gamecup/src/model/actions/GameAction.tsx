@@ -1,4 +1,6 @@
-abstract class GameAction {
+import EqualsInterface from "../dLinkList/EqualsInterface";
+
+abstract class GameAction implements EqualsInterface {
 
   constructor() {
   }
@@ -9,6 +11,10 @@ abstract class GameAction {
 
   public getPoints(): number {
     return 0;
+  }
+
+  public equals(obj: EqualsInterface): boolean {
+    return this === obj;
   }
 
   // ---------- JSON ----------

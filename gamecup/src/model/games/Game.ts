@@ -2,13 +2,14 @@ import Model from "../Model";
 import GameAction from "../actions/GameAction";
 import GameActionFactory from "../actions/GameActionFactory";
 import ScoreAction from "../actions/ScoreAction";
+import DLinkList from "../dLinkList/DLinkList";
 import Team from "../teams/Team";
 
 class Game extends Model {
     private name: String;
     private teams: Team[];
     private points: number[];
-    private history: GameAction[]; // TODO use stack
+    private history: DLinkList<GameAction>;
 
     constructor(name: String, teams: Team[]) {
         super();
@@ -18,7 +19,7 @@ class Game extends Model {
         for (let i = 0; i < teams.length; i++) {
             this.points.push(0);
         }
-        this.history = [];
+        this.history = new DLinkList<GameAction>();
     }
 
     public getTeams(): Team[] {
@@ -37,7 +38,7 @@ class Game extends Model {
         return this.name;
     }
 
-    public getHistory(): GameAction[] {
+    public getHistory(): DLinkList<GameAction> {
         return this.history;
     }
 
@@ -79,13 +80,23 @@ class Game extends Model {
 
     // ------------------------------
 
+    public toJSON(): any {
+        return {
+            name: this.name,
+            teams: this.teams,
+            points: this.points,
+            history: this.history.toArray()
+        };
+    }
+
     public static fromJSON(json: any): Game {
         const teams: Team[] = json.teams.map((team: any) => Team.fromJSON(team));
         const g = new Game(json.name, teams);
         const gameActionFactory = GameActionFactory.getInstance();
-        g.history = gameActionFactory.fromJSON(json.history);
-        for (let i = 0; i < g.history.length; i++) {
-            g.applyAction(g.history[i]);
+        const historyArr = gameActionFactory.fromJSON(json.history);
+        g.history.pushAll(historyArr);
+        for (const action of g.getHistory().iter()) {
+            g.applyAction(action);
         }
         return g;
     }

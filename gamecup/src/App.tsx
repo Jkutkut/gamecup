@@ -32,11 +32,11 @@ function App() {
       <br />
       <CollapsableContainer title='History' >
         <div className="card" style={{maxHeight: '50vh', overflowX: 'scroll'}}>
-          {game.getHistory().toReversed().map((action: GameAction, index: number) =>
+          {game.getHistory().map((action: GameAction, index: number) =>
             <div key={index}>
               {action.toJSX()}
             </div>
-          )}
+          ).reverse()}
         </div>
       </CollapsableContainer>
     </div>
