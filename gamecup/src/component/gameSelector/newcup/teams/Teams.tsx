@@ -1,11 +1,13 @@
 import InputText from "../../../generic/InputText";
 import InputTypes from "../../../generic/InputTypes";
-import { setValid, setInvalid, removeState } from "../../../generic/InputText";
 import User from "../../../../model/User";
 import Team from "../../../../model/teams/Team";
 import { useState } from "react";
 import CollapsableContainer from '../../../generic/collapse/CollapsableContainer';
 import Modal from "../../../generic/modal/Modal";
+import removeState from "../../../../functions/InputText/removeState";
+import setInvalid from "../../../../functions/InputText/setInvalid";
+import setValid from "../../../../functions/InputText/setValid";
 
 interface Props {
   users: User[];

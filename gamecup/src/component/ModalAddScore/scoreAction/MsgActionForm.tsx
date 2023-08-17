@@ -1,20 +1,11 @@
-import InputText, { setInvalid, setValid } from "../../generic/InputText";
+import setInvalid from "../../../functions/InputText/setInvalid";
+import setValid from "../../../functions/InputText/setValid";
+import InputText from "../../generic/InputText";
 import InputTypes from "../../generic/InputTypes";
 import GameActionFormProps from "./GameActionFormProps";
 
 const MsgActionForm = ({}: GameActionFormProps) => {
-  const validateAndSubmit: () => any[] | null = () => {
-    const msgHtml = document.getElementById("msg") as HTMLInputElement;
-    const msg = msgHtml.value.trim();
-    if (msg.length === 0) {
-      setInvalid(msgHtml);
-      return null;
-    }
-    setValid(msgHtml);
-    return [msg];
-  }
-
-  const html = <>
+  return <>
     <InputText
       id="msg"
       label="Message"
@@ -26,7 +17,18 @@ const MsgActionForm = ({}: GameActionFormProps) => {
       type={InputTypes.text}
     />
   </>;
-  return {html, validateAndSubmit}
+}
+
+const msgActionFormValidateAndSubmit: ({}: GameActionFormProps) => any[] | null = ({}) => {
+  const msgHtml = document.getElementById("msg") as HTMLInputElement;
+  const msg = msgHtml.value.trim();
+  if (msg.length === 0) {
+    setInvalid(msgHtml);
+    return null;
+  }
+  setValid(msgHtml);
+  return [msg];
 }
 
 export default MsgActionForm;
+export { msgActionFormValidateAndSubmit };

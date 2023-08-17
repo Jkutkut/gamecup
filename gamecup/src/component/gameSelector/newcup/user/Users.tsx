@@ -1,8 +1,10 @@
 import InputText from "../../../generic/InputText";
 import UserComponent from "./User";
-import { setInvalid, setValid, removeState } from "../../../generic/InputText";
 import User from "../../../../model/User";
 import CollapsableContainer from "../../../generic/collapse/CollapsableContainer";
+import setInvalid from "../../../../functions/InputText/setInvalid";
+import setValid from "../../../../functions/InputText/setValid";
+import removeState from "../../../../functions/InputText/removeState";
 
 interface Props {
   users: User[];

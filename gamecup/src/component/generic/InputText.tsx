@@ -45,26 +45,4 @@ const InputText = ({
   );
 }
 
-const removeState = (e: HTMLInputElement) => {
-  e.classList.remove('is-invalid');
-  e.classList.remove('is-valid');
-}
-
-const setValid = (e: HTMLInputElement) => {
-  e.classList.remove('is-invalid');
-  e.classList.add('is-valid');
-  setTimeout(() => { // TODO if multiple times called, only last one should be valid
-    e.classList.remove('is-valid');
-  }, 2000);
-}
-
-const setInvalid = (e: HTMLInputElement) => {
-  e.classList.remove('is-valid');
-  e.classList.add('is-invalid');
-  setTimeout(() => { // TODO if multiple times called, only last one should be invalid
-    e.classList.remove('is-invalid');
-  }, 2000);
-}
-
 export default InputText;
-export { setValid, setInvalid, removeState };

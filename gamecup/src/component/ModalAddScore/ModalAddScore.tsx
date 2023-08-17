@@ -3,9 +3,10 @@ import GameAction from "../../model/actions/GameAction";
 import GameActionFactory from "../../model/actions/GameActionFactory";
 import Game from "../../model/games/Game";
 import Modal from "../generic/modal/Modal";
-import ScoreActionForm from "./scoreAction/ScoreActionForm";
+import ScoreActionForm, { scoreActionFormValidateAndSubmit } from "./scoreAction/ScoreActionForm";
 import GameActionTypes from "../../model/actions/interfaces/GameActionTypes";
-import MsgActionForm from "./scoreAction/MsgActionForm";
+import MsgActionForm, { msgActionFormValidateAndSubmit } from "./scoreAction/MsgActionForm";
+import GameActionFormProps from "./scoreAction/GameActionFormProps";
 
 interface Props {
   show: boolean;
@@ -21,28 +22,29 @@ const ModalAddScore = ({
   onNewGameAction
 }: Props) => {
   const [actionType, setActionType] = useState<GameActionTypes>(GameActionTypes.SCORE_ACTION);
-  // const [actionType, setActionType] = useState<GameActionTypes>(GameActionTypes.MSG_ACTION);
 
   const gameActionFactory = GameActionFactory.getInstance();
   const actionTypes = gameActionFactory.getTypes();
   const actionTypesNames = gameActionFactory.getTypesNames();
   const teams = game.getTeams();
 
-  // TODO fix: Not the same amount of hooks
-  let form: {html: JSX.Element, validateAndSubmit: () => any};
+  let htmlForm: JSX.Element;
+  let validateAndSubmit: (obj: GameActionFormProps) => any[] | null;
   switch(actionType) {
     case GameActionTypes.SCORE_ACTION:
-      form = ScoreActionForm({teams});
+      htmlForm = <ScoreActionForm teams={teams} />;
+      validateAndSubmit = scoreActionFormValidateAndSubmit;
       break;
     case GameActionTypes.MSG_ACTION:
-      form = MsgActionForm({teams});
+      htmlForm = <MsgActionForm teams={teams} />;
+      validateAndSubmit = msgActionFormValidateAndSubmit;
       break;
     default:
       throw new Error("Invalid action type");
   }
 
   const addNew = () => {
-    const result = form.validateAndSubmit();
+    const result = validateAndSubmit({teams});
     if (!result) return;
     console.log("")
     const newAction = gameActionFactory.newAction(
@@ -76,7 +78,7 @@ const ModalAddScore = ({
           </select>
           <label htmlFor="actionType">Action type</label>
         </div>
-        {form.html}
+        {htmlForm}
       </div>
     </Modal>
   );

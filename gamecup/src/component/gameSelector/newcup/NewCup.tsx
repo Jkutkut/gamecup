@@ -4,8 +4,10 @@ import Teams from './teams/Teams';
 import User from '../../../model/User';
 import Team from '../../../model/teams/Team';
 import GameType from '../../../model/games/GameType';
-import InputText, { setInvalid, setValid } from '../../generic/InputText';
+import InputText from '../../generic/InputText';
 import InputTypes from '../../generic/InputTypes';
+import setInvalid from '../../../functions/InputText/setInvalid';
+import setValid from '../../../functions/InputText/setValid';
 
 interface Props {
   createNewGame: (type: GameType, name: String, teams: Team[]) => void;
