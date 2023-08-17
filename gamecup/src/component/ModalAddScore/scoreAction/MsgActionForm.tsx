@@ -1,5 +1,5 @@
-import setInvalid from "../../../functions/InputText/setInvalid";
-import setValid from "../../../functions/InputText/setValid";
+import setValidity from "../../../functions/InputText/setValidity";
+import getNonEmptyString from "../../../functions/form/getNonEmptyString";
 import InputText from "../../generic/InputText";
 import InputTypes from "../../generic/InputTypes";
 import GameActionFormProps from "./GameActionFormProps";
@@ -20,13 +20,9 @@ const MsgActionForm = ({}: GameActionFormProps) => {
 }
 
 const msgActionFormValidateAndSubmit: ({}: GameActionFormProps) => any[] | null = ({}) => {
-  const msgHtml = document.getElementById("msg") as HTMLInputElement;
-  const msg = msgHtml.value.trim();
-  if (msg.length === 0) {
-    setInvalid(msgHtml);
+  const msg = setValidity('msg', getNonEmptyString('msg'));
+  if (!msg)
     return null;
-  }
-  setValid(msgHtml);
   return [msg];
 }
 

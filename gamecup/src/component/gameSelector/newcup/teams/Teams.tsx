@@ -6,8 +6,11 @@ import { useState } from "react";
 import CollapsableContainer from '../../../generic/collapse/CollapsableContainer';
 import Modal from "../../../generic/modal/Modal";
 import removeState from "../../../../functions/InputText/removeState";
-import setInvalid from "../../../../functions/InputText/setInvalid";
-import setValid from "../../../../functions/InputText/setValid";
+import setValidity from "../../../../functions/InputText/setValidity";
+import getInRange from "../../../../functions/form/getInRange";
+import shuffleArray from "../../../../functions/array/shuffleArray";
+import divideArray from "../../../../functions/array/divideArray";
+import getNonEmptyString from "../../../../functions/form/getNonEmptyString";
 
 interface Props {
   users: User[];
@@ -20,63 +23,30 @@ const TeamsComponent = ({users, teams, setTeams}: Props) => {
 
   const createTeams = () => {
     console.debug('createTeams');
-    const nbrTeamsHtml = document.getElementById('nbrTeams') as HTMLInputElement;
-    const getNbrTeams: () => number | null = () => {
-      let nbrTeams;
-      try {
-        nbrTeams = parseInt(nbrTeamsHtml.value);
-      } catch (e) {
-        return null;
-      }
-      if (isNaN(nbrTeams) || nbrTeams < 1 || nbrTeams > users.length) {
-        return null;
-      }
-      return nbrTeams;
-    };
-    removeState(nbrTeamsHtml);
-    const nbrTeams = getNbrTeams();
-    if (nbrTeams === null) {
-      setInvalid(nbrTeamsHtml);
+    const nbrTeams = setValidity('nbrTeams', getInRange('nbrTeams', 1, users.length));
+    if (nbrTeams === null)
       return;
-    }
     console.debug('nbrTeams', nbrTeams);
-    const shuffleArr = (arr: any[]) => {
-      for (let i = arr.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [arr[i], arr[j]] = [arr[j], arr[i]];
-      }
-      return arr;
-    };
-    const shuffledUsers = shuffleArr([...users]);
-    const newTeams: any[] = [];
-    for (let i = 0; i < nbrTeams; i++) {
-      newTeams.push([]);
-    }
-    for (let i = 0, j = 0; i < shuffledUsers.length; i++, j = (j + 1) % nbrTeams) {
-      newTeams[j].push(shuffledUsers[i]);
-    }
-    setValid(nbrTeamsHtml);
+    const shuffledUsers = shuffleArray([...users]);
+    const newTeams: User[][] = divideArray(shuffledUsers, nbrTeams);
     setTeams(newTeams.map((players) => new Team(players)));
   };
 
   const renameTeam = () => {
     if (!teams || !renameTeamModal) return;
-    const newNameInput = document.getElementById('renameTeam') as HTMLInputElement;
-    const newName = newNameInput.value.trim();
-    removeState(newNameInput);
-    if (newName.length === 0) {
-      setInvalid(newNameInput);
-      return;
-    }
+    let newName: String | null = getNonEmptyString('renameTeam');
     for (let i = 0; i < teams.length; i++) {
-      if (teams[i] === renameTeamModal) continue;
+      if (teams[i].equals(renameTeamModal)) continue;
       if (teams[i].getName() === newName) {
-        setInvalid(newNameInput);
-        return;
+        newName = null;
+        break;
       }
     }
+    setValidity('renameTeam', newName);
+    if (newName === null) {
+      return;
+    }
     renameTeamModal.setName(newName);
-    setValid(newNameInput);
     setTeams([...teams]);
   }
 

@@ -2,9 +2,9 @@ import InputText from "../../../generic/InputText";
 import UserComponent from "./User";
 import User from "../../../../model/User";
 import CollapsableContainer from "../../../generic/collapse/CollapsableContainer";
-import setInvalid from "../../../../functions/InputText/setInvalid";
-import setValid from "../../../../functions/InputText/setValid";
 import removeState from "../../../../functions/InputText/removeState";
+import setValidity from "../../../../functions/InputText/setValidity";
+import getNonEmptyString from "../../../../functions/form/getNonEmptyString";
 
 interface Props {
   users: User[];
@@ -13,19 +13,17 @@ interface Props {
 
 const Users = ({ users, setUsers }: Props) => {
   const addUsr = () => {
-    const input = document.getElementById('addUsr') as HTMLInputElement;
-    const userName = input.value.trim();
-    if (userName === '') {
-      setInvalid(input);
+    let userName = getNonEmptyString('addUsr');
+    if (users.find((u) => u.getName() == userName)) {
+      userName = null;
+    }
+    setValidity('addUsr', userName);
+    if (userName === null) {
       return;
     }
-    const user = new User(input.value.trim());
-    if (users.find((u) => u.getName() === user.getName())) {
-      setInvalid(input);
-      return;
-    }
-    setValid(input);
+    const user = new User(userName);
     setUsers([...users, user]);
+    const input = document.getElementById('addUsr') as HTMLInputElement;
     input.value = '';
     input.focus();
   };

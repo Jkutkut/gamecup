@@ -23,6 +23,8 @@ class Team {
     }
 
     public equals(team: Team): boolean {
+        if (this == team)
+            return true;
         if (this.name != team.name)
             return false;
         if (this.players.length != team.players.length)

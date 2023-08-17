@@ -6,8 +6,8 @@ import Team from '../../../model/teams/Team';
 import GameType from '../../../model/games/GameType';
 import InputText from '../../generic/InputText';
 import InputTypes from '../../generic/InputTypes';
-import setInvalid from '../../../functions/InputText/setInvalid';
-import setValid from '../../../functions/InputText/setValid';
+import setValidity from '../../../functions/InputText/setValidity';
+import getNonEmptyString from '../../../functions/form/getNonEmptyString';
 
 interface Props {
   createNewGame: (type: GameType, name: String, teams: Team[]) => void;
@@ -25,14 +25,9 @@ const NewCup = ({createNewGame, cancelable, onCancel}: Props) => {
   };
 
   const begin = () => {
-    const cupNameHtml = document.getElementById('cupName') as HTMLInputElement;
-    const cupName = cupNameHtml.value.trim();
-    if (cupName === "") {
-      setInvalid(cupNameHtml);
+    const cupName = setValidity('cupName', getNonEmptyString('cupName'));
+    if (!cupName || !teams || teams.length <= 0 || teams.length >= users.length)
       return;
-    }
-    // TODO check other games
-    setValid(cupNameHtml);
     if (teams && teams.length > 0)
       createNewGame(GameType.BASIC, cupName, teams);
   };
