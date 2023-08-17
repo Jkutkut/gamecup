@@ -1,4 +1,4 @@
-const divideArray: <T>(arr: T[], nbrGroups: number) => T[][] = (arr, nbrGroups) => {
+function divideArray<T>(arr: T[], nbrGroups: number): T[][] {
   const groups: T[][] = [];
   for (let i = 0; i < nbrGroups; i++) {
     groups.push([]);
@@ -7,6 +7,6 @@ const divideArray: <T>(arr: T[], nbrGroups: number) => T[][] = (arr, nbrGroups) 
     groups[j].push(arr[i]);
   }
   return groups;
-};
+}
 
 export default divideArray;
