@@ -38,8 +38,10 @@ const ScoreActionForm = ({teams}: GameActionFormProps) => {
 
 const scoreActionFormValidateAndSubmit: ({}: GameActionFormProps) => any[] | null = ({teams}) => {
   const score = setValidity('score', getInRange('score', 1));
-  const team = setValidity('team', getInRange('team', 0, teams.length));
-  if (!score || !team)
+  const teamSelector = document.getElementById('team') as HTMLSelectElement;
+  const team = parseInt(teamSelector.value);
+  console.debug("scoreActionFormValidateAndSubmit", score, team);
+  if (score == null || team == null)
     return null;
   return [teams[team], score];
 };
