@@ -56,26 +56,7 @@ const TeamsComponent = ({users, teams, setTeams}: Props) => {
 
   return (
     <CollapsableContainer title='Game:' defaultCollapsed={false}>
-      <InputText id='nbrTeams'
-        label='Number of teams'
-        placeholder=''
-        validText='Teams created successfully'
-        invalidText='Invalid number of teams'
-        onEnter={createTeams}
-        onChange={removeState}
-        type={InputTypes.number}
-        min={1}
-        max={users.length}
-      />
-      <div className='d-grid col-6 mx-auto'>
-        <button type="button" className="btn btn-primary"
-          onClick={createTeams} disabled={users.length === 0}
-        >
-          {teams ? 'Shuffle' : 'Create teams'}
-        </button>
-      </div>
       {teams && <>
-        <br />
         <div
           className='container text-center card gap-3 p-3'
           style={{maxHeight:'60vh', overflowX:"scroll"}}
@@ -122,6 +103,25 @@ const TeamsComponent = ({users, teams, setTeams}: Props) => {
           />
         </Modal>
       </>}
+      <br />
+      <InputText id='nbrTeams'
+        label='Number of teams'
+        placeholder=''
+        validText='Teams created successfully'
+        invalidText='Invalid number of teams'
+        onEnter={createTeams}
+        onChange={removeState}
+        type={InputTypes.number}
+        min={1}
+        max={users.length}
+      />
+      <div className='d-grid col-6 mx-auto'>
+        <button type="button" className="btn btn-primary"
+          onClick={createTeams} disabled={users.length === 0}
+        >
+          {teams ? 'Shuffle' : 'Create teams'}
+        </button>
+      </div>
     </CollapsableContainer>
   );
 }
