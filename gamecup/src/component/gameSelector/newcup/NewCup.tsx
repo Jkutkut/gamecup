@@ -26,10 +26,9 @@ const NewCup = ({createNewGame, cancelable, onCancel}: Props) => {
 
   const begin = () => {
     const cupName = setValidity('cupName', getNonEmptyString('cupName'));
-    if (!cupName || !teams || teams.length <= 0 || teams.length >= users.length)
+    if (!cupName || !teams || teams.length <= 0 || teams.length > users.length)
       return;
-    if (teams && teams.length > 0)
-      createNewGame(GameType.BASIC, cupName, teams);
+    createNewGame(GameType.BASIC, cupName, teams);
   };
 
   return <div className='p-3'>
