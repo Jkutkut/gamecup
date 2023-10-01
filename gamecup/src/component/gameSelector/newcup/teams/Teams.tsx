@@ -27,7 +27,13 @@ const TeamsComponent = ({users, teams, setTeams}: Props) => {
     if (nbrTeams === null)
       return;
     console.debug('nbrTeams', nbrTeams);
-    const shuffledUsers = shuffleArray([...users]);
+    let shuffledUsers;
+    if (nbrTeams === users.length) {
+      shuffledUsers = [...users];
+    }
+    else {
+      shuffledUsers = shuffleArray([...users]);
+    }
     const newTeams: User[][] = divideArray(shuffledUsers, nbrTeams);
     setTeams(newTeams.map((players) => new Team(players)));
   };
