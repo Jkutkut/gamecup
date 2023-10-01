@@ -7,6 +7,7 @@ import TeamRanking from './component/teamRanking/TeamRanking';
 import GameAction from './model/actions/GameAction';
 import CollapsableContainer from './component/generic/collapse/CollapsableContainer';
 import ModalAddScore from './component/ModalAddScore/ModalAddScore';
+import History from './component/history/History';
 
 function App() {
   const [gameHandler] = useState<StorageHandler>(StorageHandler.getInstance());
@@ -40,15 +41,7 @@ function App() {
           />
       </CollapsableContainer>
       <br />
-      <CollapsableContainer title='History' >
-        <div className="card gap-2 p-2" style={{maxHeight: '50vh', overflowX: 'scroll'}}>
-          {game.getHistory().map((action: GameAction, index: number) =>
-            <div key={index}>
-              {action.toJSX()}
-            </div>
-          ).reverse()}
-        </div>
-      </CollapsableContainer>
+      <History game={game} />
     </div>
     <br />
     <div className='d-grid'>
