@@ -42,44 +42,23 @@ const TeamRanking = ({teams, points}: Props) => {
   const [sortedPoints, setSortedPoints] = useState<number[]>(points);
   
   useEffect(() => {
+    const copyTeams = [...teams];
+    const copyPoints = [...points];
     switch (sorting) {
       case SortType.ASC:
-        sort2arrays(points, teams, (a, b) => a - b);
+        sort2arrays(copyPoints, copyTeams, (a, b) => a - b);
         break;
       case SortType.DESC:
-        sort2arrays(points, teams, (a, b) => b - a);
+        sort2arrays(copyPoints, copyTeams, (a, b) => b - a);
         break;
       case SortType.NORMAL:
         break;
     }
-    setSortedTeams([...teams]);
-    setSortedPoints([...points]);
-  }, [sorting, points]);
+    setSortedTeams(copyTeams);
+    setSortedPoints(copyPoints);
+  }, [sorting, teams, points]);
 
-
-  let listHtml: JSX.Element[] = [];
-  for (let i = 0; i < sortedTeams.length; i++) {
-    const team = sortedTeams[i];
-    const pts = sortedPoints[i];
-    listHtml.push(
-      <div key={i} className="card p-3">
-        <div className="row">
-          <h4 className="col col-8">{team.getName()}</h4>
-          <h4 className="col text-end">
-            {pts}
-          </h4>
-        </div>
-        <div className="row">
-          {team.getPlayers().map((user: User, idx) =>
-            <div key={idx} className="col">
-              {user.getName()}
-            </div>
-          )}
-        </div>
-      </div>
-    );
-  }
-  return <>
+return <>
     <div className="form-floating">
       <select className="form-select" id="teamRankingOrder"
         value={sorting}
@@ -92,7 +71,26 @@ const TeamRanking = ({teams, points}: Props) => {
       <label htmlFor="teamRankingOrder">Ranking type</label>
     </div>
     <div className="card p-3 gap-4" style={{marginTop: "15px", maxHeight: '50vh', overflowX: 'scroll'}}>
-      {listHtml}
+      {sortedTeams.map((team, i) => {
+        const pts = sortedPoints[i];
+        return (
+          <div key={i} className="card p-3">
+            <div className="row">
+              <h4 className="col col-8">{team.getName()}</h4>
+              <h4 className="col text-end">
+                {pts}
+              </h4>
+            </div>
+            <div className="row">
+              {team.getPlayers().map((user: User, idx) =>
+                <div key={idx} className="col">
+                  {user.getName()}
+                </div>
+              )}
+            </div>
+          </div>
+        );
+      })}
     </div>
   </>;
 };
