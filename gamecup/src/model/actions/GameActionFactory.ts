@@ -2,6 +2,7 @@ import Model from "../Model";
 import Team from "../teams/Team";
 import GameAction from "./GameAction";
 import MsgAction from "./MsgAction";
+import PenaltyAction from "./PenaltyAction";
 import ScoreAction from "./ScoreAction";
 import GameActionTypes from "./interfaces/GameActionTypes";
 import GameActionTypesNames from "./interfaces/GameActionTypesNames";
@@ -39,6 +40,11 @@ class GameActionFactory extends Model {
           args[0] as Team,
           args[1] as number,
         );
+      case GameActionTypes.PENALTY_ACTION:
+        return new PenaltyAction(
+          args[0] as Team,
+          args[1] as number,
+        );
       case GameActionTypes.MSG_ACTION:
         return new MsgAction(
           args[0] as string
@@ -59,7 +65,11 @@ class GameActionFactory extends Model {
   }
 
   public fromObjJSON(json: any): GameAction {
+    this.debug("Creating a new action from JSON", json);
     switch (json.class) {
+      case PenaltyAction.name:
+        this.info("Creating a new PenaltyAction");
+        return PenaltyAction.fromJSON(json);
       case ScoreAction.name:
         return ScoreAction.fromJSON(json);
       case MsgAction.name:
