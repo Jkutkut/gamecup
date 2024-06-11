@@ -31,6 +31,13 @@ DOCKER_CMD = docker run --rm -it --name ${FRONT_NAME}
 DOCKER_APP_V = -v ${CURRENT_PATH}/${FRONT_NAME}/:/app -w /app
 DOCKER_IMG_FRONT = node:current-alpine3.16
 
+DEPENDENCIES = \
+	$(shell find ./gamecup/index.html -type f) \
+	$(shell find ./gamecup/*.json -type f) \
+	$(shell find ./gamecup/src -type f)
+
+RELEASE=gamecup/dist
+
 install:
 	${DOCKER_CMD} --entrypoint=npm ${DOCKER_IMG_FRONT} install
 
@@ -40,8 +47,15 @@ run_front:
 terminal_front:
 	$(DOCKER_CMD) ${DOCKER_APP_V} --entrypoint=/bin/sh ${DOCKER_IMG_FRONT}
 
-build:
+build: ${RELEASE}
+
+$(RELEASE): ${DEPENDENCIES}
 	$(DOCKER_CMD) ${DOCKER_APP_V} --entrypoint=npm ${DOCKER_IMG_FRONT} run build
 
 qr:
 	docker run -it --rm jkutkut/py-qr ${shell hostname -I | awk '{print $$1}'}:${PORT_FRONT}
+
+clean:
+	rm -rf ${RELEASE}
+
+.PHONY: install run_front terminal_front build qr
