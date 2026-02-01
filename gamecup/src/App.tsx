@@ -43,8 +43,7 @@ function App() {
       <br />
       <History game={game} />
     </div>
-    <br />
-    <div className='d-grid'>
+    <div className='d-grid add-score'>
       <button
         type='button'
         className='btn btn-primary'

@@ -18,3 +18,9 @@
 .navbar + .body-content {
     margin-top: 60px;
 }
+
+.add-score {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+}
