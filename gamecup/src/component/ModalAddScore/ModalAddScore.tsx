@@ -32,21 +32,22 @@ const ModalAddScore = ({
 
   let htmlForm: JSX.Element;
   let validateAndSubmit: (obj: GameActionFormProps) => any[] | null;
+  const props = {teams, game};
   switch(actionType) {
     case GameActionTypes.SCORE_ACTION:
-      htmlForm = <ScoreActionForm teams={teams} />;
+      htmlForm = <ScoreActionForm {...props} />;
       validateAndSubmit = scoreActionFormValidateAndSubmit;
       break;
     case GameActionTypes.MSG_ACTION:
-      htmlForm = <MsgActionForm teams={teams} />;
+      htmlForm = <MsgActionForm {...props} />;
       validateAndSubmit = msgActionFormValidateAndSubmit;
       break;
     case GameActionTypes.PENALTY_ACTION:
-      htmlForm = <PenaltyActionForm teams={teams} />;
+      htmlForm = <PenaltyActionForm {...props} />;
       validateAndSubmit = scoreActionFormValidateAndSubmit;
       break;
     case GameActionTypes.RESET_GAME_ACTION:
-      htmlForm = <ResetGameActionForm />
+      htmlForm = <ResetGameActionForm {...props}/>
       validateAndSubmit = ResetGameActionFormValidateAndSubmit;
       break;
     default:
@@ -54,7 +55,7 @@ const ModalAddScore = ({
   }
 
   const addNew = () => {
-    const result = validateAndSubmit({teams});
+    const result = validateAndSubmit(props);
     if (!result) return;
     console.log("")
     const newAction = gameActionFactory.newAction(

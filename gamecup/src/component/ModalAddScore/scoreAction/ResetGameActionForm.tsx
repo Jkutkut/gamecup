@@ -5,7 +5,7 @@ import setValidity from "../../../functions/InputText/setValidity";
 import getString from "../../../functions/form/getString";
 import getWholeNumber from "../../../functions/form/getWholeNumber";
 
-const ResetGameActionForm = () => {
+const ResetGameActionForm = (_: GameActionFormProps) => {
   return <>
     <InputText
       id="points"
@@ -32,13 +32,16 @@ const ResetGameActionForm = () => {
   </>;
 };
 
-const ResetGameActionFormValidateAndSubmit: ({}: GameActionFormProps) => any[] | null = ({}) => {
+const ResetGameActionFormValidateAndSubmit: (props: GameActionFormProps) => any[] | null = ({game}) => {
   const msg = setValidity('msg', getString('msg'));
   const points = setValidity('points', getWholeNumber('points'));
-  console.debug("ResetGameActionFormValidateAndSubmit", points);
+  console.debug("ResetGameActionFormValidateAndSubmit", points, game);
   if (points == null || msg == null)
     return null;
-  return [msg, points];
+  const teams = game.getTeams();
+  const currentPoints = game.getPoints();
+  const teamPoints = teams.map((team, idx) => [team.getName(), currentPoints[idx]]);
+  return [msg, points, teamPoints];
 };
 
 export default ResetGameActionForm;

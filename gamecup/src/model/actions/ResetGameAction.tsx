@@ -3,11 +3,13 @@ import GameAction from "./GameAction";
 class ResetGameAction extends GameAction {
   private readonly msg: string;
   private readonly points: number;
+  private readonly currentPoints: ([string, number])[];
 
-  constructor(msg: string, points: number) {
+  constructor(msg: string, points: number, currentPoints: ([string, number])[] = []) {
     super();
     this.msg = msg;
     this.points = points;
+    this.currentPoints = currentPoints;
   }
 
   public getMsg(): string {
@@ -22,6 +24,11 @@ class ResetGameAction extends GameAction {
     return (
       <div className="card p-3">
         Game reset: {this.msg || <>All players set to {this.points} points</>}
+        {this.currentPoints.length > 0 && <div>
+          <ul>
+            {this.currentPoints.map((player) => <li key={player[0]}>{player[0]}: {player[1]}</li>)}
+          </ul>
+        </div>}
       </div>
     );
   }
@@ -40,13 +47,15 @@ class ResetGameAction extends GameAction {
     const obj = super.toJSON();
     obj.msg = this.msg;
     obj.points = this.points;
+    obj.currentPoints = this.currentPoints;
     return obj;
   }
 
   public static fromJSON(json: any): ResetGameAction {
     const msg = json.msg;
     const points = json.points;
-    return new ResetGameAction(msg, points);
+    const currentPoints = json.currentPoints || [];
+    return new ResetGameAction(msg, points, currentPoints);
   }
 }
 

@@ -53,7 +53,8 @@ class GameActionFactory extends Model {
       case GameActionTypes.RESET_GAME_ACTION:
         return new ResetGameAction(
           args[0] as string,
-          args[1] as number
+          args[1] as number,
+          args[2] as ([string, number])[]
         );
     }
     this.error("Unknown action type", type);
