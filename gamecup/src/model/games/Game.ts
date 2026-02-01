@@ -2,6 +2,7 @@ import Model from "../Model";
 import GameAction from "../actions/GameAction";
 import GameActionFactory from "../actions/GameActionFactory";
 import PenaltyAction from "../actions/PenaltyAction";
+import ResetGameAction from "../actions/ResetGameAction";
 import ScoreAction from "../actions/ScoreAction";
 import DLinkList from "../dLinkList/DLinkList";
 import Team from "../teams/Team";
@@ -69,6 +70,12 @@ class Game extends Model {
                 const idx2 = this.teamIndex(penaltyAction.getTeam());
                 this.debug("Removing", penaltyAction.getPoints(), "to", this.teams[idx2].getName());
                 this.points[idx2] -= penaltyAction.getPoints();
+                break;
+            case ResetGameAction.name:
+                const resetGameAction = action as ResetGameAction;
+                for (let i = 0; i < this.points.length; i++) {
+                    this.points[i] = resetGameAction.getPoints();
+                }
                 break;
             // default: nothing
         }

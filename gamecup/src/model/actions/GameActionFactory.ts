@@ -3,6 +3,7 @@ import Team from "../teams/Team";
 import GameAction from "./GameAction";
 import MsgAction from "./MsgAction";
 import PenaltyAction from "./PenaltyAction";
+import ResetGameAction from "./ResetGameAction";
 import ScoreAction from "./ScoreAction";
 import GameActionTypes from "./interfaces/GameActionTypes";
 import GameActionTypesNames from "./interfaces/GameActionTypesNames";
@@ -49,6 +50,11 @@ class GameActionFactory extends Model {
         return new MsgAction(
           args[0] as string
         );
+      case GameActionTypes.RESET_GAME_ACTION:
+        return new ResetGameAction(
+          args[0] as string,
+          args[1] as number
+        );
     }
     this.error("Unknown action type", type);
     return null;
@@ -74,6 +80,8 @@ class GameActionFactory extends Model {
         return ScoreAction.fromJSON(json);
       case MsgAction.name:
         return MsgAction.fromJSON(json);
+      case ResetGameAction.name:
+        return ResetGameAction.fromJSON(json);
       default:
         throw new Error("Unknown GameAction class: " + json.class);
     }
