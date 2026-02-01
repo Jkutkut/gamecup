@@ -8,10 +8,10 @@ interface Props {
 };
 
 const History = ({game}: Props) => {
-  const [reverse, setReverse] = useState<boolean>(true);
+  const [reverse, setReverse] = useState<boolean>(false);
   const iterator = reverse ? game.getHistory().rIter() : game.getHistory().iter();
   const history = Array.from(iterator);
-  return <>
+  return (
     <CollapsableContainer title='History' >
       {history.length > 0 &&
         <div className="card gap-2 p-2" style={{maxHeight: '50vh', overflowX: 'scroll'}}>
@@ -33,7 +33,7 @@ const History = ({game}: Props) => {
         </div>
       }
     </CollapsableContainer>
-  </>;
+  );
 };
 
 export default History;

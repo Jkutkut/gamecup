@@ -12,8 +12,7 @@ const CollapsableContainer = ({ title, defaultCollapsed = false, children }: Pro
   if (collapsed)
     classes += ' open';
   return <>
-    <h3 className={classes} onClick={() => {setCollapsed(!collapsed)}}
-    >
+    <h3 className={classes} onClick={() => {setCollapsed(!collapsed)}}>
       {title}
     </h3>
     <div className={collapsed ? 'collapse' : ''}>
