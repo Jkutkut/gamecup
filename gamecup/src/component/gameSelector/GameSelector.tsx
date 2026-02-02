@@ -55,21 +55,22 @@ const GameSelector = ({setGame}: Props) => {
                 {game.getName()}
               </h4>
               <div className="col text-end">
+                {game.getName() === currentGame?.getName() &&
+                  <span className="badge bg-primary">Current</span>
+                }
+                &nbsp;&nbsp;&nbsp;
                 <button className="btn btn-outline-primary btn-sm"
                   onClick={() => changeGame(game)}
                 >
                   Select
                 </button>
                 &nbsp;&nbsp;&nbsp;
-                {game.getName() === currentGame?.getName() &&
-                  <span className="badge bg-primary">Current</span> ||
-                  <button
-                    className="btn btn-outline-danger btn-sm"
-                    onClick={() => destroyGame(game)}
-                  >
-                    Delete
-                  </button>
-                }
+                <button
+                  className="btn btn-outline-danger btn-sm"
+                  onClick={() => destroyGame(game)}
+                >
+                  Delete
+                </button>
               </div>
             </div>
 
