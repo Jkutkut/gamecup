@@ -29,7 +29,7 @@ PORT_FRONT = 8080
 
 DOCKER_CMD = docker run --rm -it --name ${FRONT_NAME}
 DOCKER_APP_V = -v ${CURRENT_PATH}/${FRONT_NAME}/:/app -w /app
-DOCKER_IMG_FRONT = node:current-alpine3.16
+DOCKER_IMG_FRONT = node:current-alpine3.22
 
 DEPENDENCIES = \
 	$(shell find ./gamecup/index.html -type f) \
