@@ -7,10 +7,10 @@ import CollapsableContainer from '../../../generic/collapse/CollapsableContainer
 import Modal from "../../../generic/modal/Modal";
 import removeState from "../../../../functions/InputText/removeState";
 import setValidity from "../../../../functions/InputText/setValidity";
-import getInRange from "../../../../functions/form/getInRange";
 import shuffleArray from "../../../../functions/array/shuffleArray";
 import divideArray from "../../../../functions/array/divideArray";
 import getNonEmptyString from "../../../../functions/form/getNonEmptyString";
+import getInRangeOr from "../../../../functions/form/getInRangeOr";
 
 interface Props {
   users: User[];
@@ -23,7 +23,7 @@ const TeamsComponent = ({users, teams, setTeams}: Props) => {
 
   const createTeams = () => {
     console.debug('createTeams');
-    const nbrTeams = setValidity('nbrTeams', getInRange('nbrTeams', 1, users.length));
+    const nbrTeams = setValidity('nbrTeams', getInRangeOr('nbrTeams', 1, users.length, users.length));
     if (nbrTeams === null)
       return;
     console.debug('nbrTeams', nbrTeams);
