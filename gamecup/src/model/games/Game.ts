@@ -3,6 +3,7 @@ import GameAction from "../actions/GameAction";
 import GameActionFactory from "../actions/GameActionFactory";
 import PenaltyAction from "../actions/PenaltyAction";
 import ResetGameAction from "../actions/ResetGameAction";
+import RoundAction from "../actions/RoundAction";
 import ScoreAction from "../actions/ScoreAction";
 import DLinkList from "../dLinkList/DLinkList";
 import Team from "../teams/Team";
@@ -74,7 +75,17 @@ class Game extends Model {
             case ResetGameAction.name:
                 const resetGameAction = action as ResetGameAction;
                 for (let i = 0; i < this.points.length; i++) {
+                    this.debug("Resetting", this.teams[i].getName());
                     this.points[i] = resetGameAction.getPoints();
+                }
+                break;
+            case RoundAction.name:
+                const roundAction = action as RoundAction;
+                const actionPoints = roundAction.getPoints();
+                for (let i = 0; i < this.points.length && i < actionPoints.length; i++) {
+                    const [_, points] = actionPoints[i];
+                    this.debug("Adding", points, "to", this.teams[i].getName());
+                    this.points[i] += points;
                 }
                 break;
             // default: nothing

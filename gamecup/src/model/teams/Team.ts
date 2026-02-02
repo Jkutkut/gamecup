@@ -1,10 +1,10 @@
 import User from "../User";
 
 class Team {
-    private name: String | undefined;
+    private name: string | undefined;
     private players: User[];
 
-    constructor(players: User[], name?: String) {
+    constructor(players: User[], name?: string) {
         this.players = players;
         this.name = name;
     }
@@ -13,7 +13,7 @@ class Team {
         return this.players;
     }
 
-    public getName(): String {
+    public getName(): string {
         if (!this.name) {
             if (this.players.length >= 1)
                 return `${this.players[0].getName()}'s team`;
@@ -36,7 +36,7 @@ class Team {
         return true;
     }
 
-    public setName(name: String): void {
+    public setName(name: string): void {
         this.name = name; // ! Not validated
     }
 

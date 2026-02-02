@@ -9,6 +9,7 @@ import MsgActionForm, { msgActionFormValidateAndSubmit } from "./scoreAction/Msg
 import GameActionFormProps from "./scoreAction/GameActionFormProps";
 import PenaltyActionForm from "./scoreAction/PenaltyActionForm";
 import ResetGameActionForm, { ResetGameActionFormValidateAndSubmit } from "./scoreAction/ResetGameActionForm";
+import RoundActionForm, { RoundActionFormValidateAndSubmit } from "./scoreAction/RoundActionForm";
 
 interface Props {
   show: boolean;
@@ -49,6 +50,10 @@ const ModalAddScore = ({
     case GameActionTypes.RESET_GAME_ACTION:
       htmlForm = <ResetGameActionForm {...props}/>
       validateAndSubmit = ResetGameActionFormValidateAndSubmit;
+      break;
+    case GameActionTypes.ROUND_ACTION:
+      htmlForm = <RoundActionForm {...props}/>
+      validateAndSubmit = RoundActionFormValidateAndSubmit;
       break;
     default:
       throw new Error("Invalid action type");

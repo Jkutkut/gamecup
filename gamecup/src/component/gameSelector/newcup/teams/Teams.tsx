@@ -40,7 +40,7 @@ const TeamsComponent = ({users, teams, setTeams}: Props) => {
 
   const renameTeam = () => {
     if (!teams || !renameTeamModal) return;
-    let newName: String | null = getNonEmptyString('renameTeam');
+    let newName: string | null = getNonEmptyString('renameTeam');
     for (let i = 0; i < teams.length; i++) {
       if (teams[i].equals(renameTeamModal)) continue;
       if (teams[i].getName() === newName) {

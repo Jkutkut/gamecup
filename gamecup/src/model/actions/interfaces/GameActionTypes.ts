@@ -3,6 +3,7 @@ enum GameActionTypes {
   MSG_ACTION = "msgAction",
   PENALTY_ACTION = "penaltyAction",
   RESET_GAME_ACTION = "resetGameAction",
+  ROUND_ACTION = "roundAction"
 }
 
 export default GameActionTypes;
