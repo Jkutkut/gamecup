@@ -52,11 +52,6 @@ class StorageHandler extends Model {
   }
 
   public addGame(game: Game): Game {
-    // for (let i = 0; i < this.games.length; i++) {
-    //   if (this.games[i].getName() === game.getName()) {
-    //     return null;
-    //   }
-    // }
     this.games.push(game);
     this.setCurrentGameObj(game);
     this.save();
@@ -69,6 +64,9 @@ class StorageHandler extends Model {
         this.games.splice(i, 1);
         if (this.currentGame === game) {
           this.unsetCurrentGame(); // saves for us
+        }
+        else {
+          this.save();
         }
         return;
       }
@@ -91,7 +89,7 @@ class StorageHandler extends Model {
           "Failed to load current game from LocalStorage\n",
           e, "\n", JSON.parse(currentGame)
         );
-        // localStorage.removeItem("currentGame");
+        localStorage.removeItem("currentGame");
       }
     }
     const games = localStorage.getItem("games");
